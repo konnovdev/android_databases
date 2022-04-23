@@ -1,0 +1,18 @@
+[versions]
+core-ktx = "1.7.0"
+compose = "1.1.1"
+lifecylce-runtime-ktx = "2.4.1"
+activity-compose = "1.4.0"
+
+[libraries]
+coreKtx = { module = "androidx.core:core-ktx", version.ref = "core-ktx" }
+lifecycleRuntimeKtx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecylce-runtime-ktx" }
+activityCompose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
+
+composeUi = { module = "androidx.compose.ui:ui", version.ref = "compose" }
+composeMaterial = { module = "androidx.compose.material:material", version.ref = "compose" }
+composeUiToolingPreview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
+composeUiTooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
+
+[bundles]
+composeDependencies = ["composeUi", "composeMaterial", "composeUiToolingPreview", "composeUiTooling"]
