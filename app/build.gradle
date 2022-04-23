@@ -52,4 +52,5 @@ dependencies {
     implementation libs.coreKtx
     implementation libs.lifecycleRuntimeKtx
     implementation libs.bundles.composeDependencies
+    implementation project(path: ':feature:sqlitehelper')
 }
