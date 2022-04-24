@@ -7,10 +7,18 @@ import androidx.compose.ui.tooling.preview.Preview
 @Preview(showBackground = true, widthDp = 320, heightDp = 700)
 @Composable
 private fun PreviewSqliteHelperScreen() {
-    SqliteHelperScreen()
+    SqliteHelperMainScreen()
 }
 
 @Composable
-fun SqliteHelperScreen() {
+fun SqliteHelperScreen(
+    viewModel: SqliteHelperViewModel
+) {
+    viewModel.testDbSpeed()
+    SqliteHelperMainScreen()
+}
+
+@Composable
+private fun SqliteHelperMainScreen() {
     Text("Hello SQLite helper")
 }

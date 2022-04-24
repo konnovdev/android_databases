@@ -14,12 +14,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import dagger.hilt.android.AndroidEntryPoint
 import dev.konnov.databasesandroid.ui.theme.DatabasesAndroidTheme
 import dev.konnov.feature.sqlitehelper.SqliteHelperScreen
+import dev.konnov.feature.sqlitehelper.SqliteHelperViewModel
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +32,10 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             NavHost(navController = navController, startDestination = "main") {
                 composable("main") { MainScreen({ navController.navigate("sqlitehelper") }) }
-                composable("sqlitehelper") { SqliteHelperScreen() }
+                composable("sqlitehelper") {
+                    val viewModel = hiltViewModel<SqliteHelperViewModel>()
+                    SqliteHelperScreen(viewModel)
+                }
             }
         }
     }

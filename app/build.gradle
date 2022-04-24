@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'dagger.hilt.android.plugin'
+    id 'kotlin-kapt'
 }
 
 apply(from: "$rootDir/application.gradle")
@@ -48,8 +50,14 @@ android {
 }
 
 dependencies {
+    implementation libs.hiltNavigationCompose
+    implementation libs.daggerHiltAndroid
+    kapt(libs.hiltAndroidCompiler)
+    kapt(libs.hiltCompiler)
+
     implementation libs.activityCompose
     implementation libs.coreKtx
+    implementation libs.lifecycleViewmodelKtx
     implementation libs.lifecycleRuntimeKtx
     implementation libs.navigation
     implementation project(path: ':feature:sqlitehelper')
