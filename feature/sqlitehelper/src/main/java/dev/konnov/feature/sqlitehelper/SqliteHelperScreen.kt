@@ -1,6 +1,7 @@
 package dev.konnov.feature.sqlitehelper
 
 import androidx.compose.material.Text
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 
@@ -12,7 +13,7 @@ private fun PreviewSqliteHelperScreen() {
 
 @Composable
 fun SqliteHelperScreen(
-    viewModel: SqliteHelperViewModel
+    viewModel: SqliteHelperViewModel = viewModel()
 ) {
     viewModel.testDbSpeed()
     SqliteHelperMainScreen()

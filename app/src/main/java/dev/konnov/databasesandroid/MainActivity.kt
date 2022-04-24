@@ -32,10 +32,7 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             NavHost(navController = navController, startDestination = "main") {
                 composable("main") { MainScreen({ navController.navigate("sqlitehelper") }) }
-                composable("sqlitehelper") {
-                    val viewModel = hiltViewModel<SqliteHelperViewModel>()
-                    SqliteHelperScreen(viewModel)
-                }
+                composable("sqlitehelper") { SqliteHelperScreen() }
             }
         }
     }
