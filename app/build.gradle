@@ -51,6 +51,7 @@ dependencies {
     implementation libs.activityCompose
     implementation libs.coreKtx
     implementation libs.lifecycleRuntimeKtx
-    implementation libs.bundles.composeDependencies
+    implementation libs.navigation
     implementation project(path: ':feature:sqlitehelper')
+    implementation libs.bundles.composeDependencies
 }

@@ -3,11 +3,13 @@ core-ktx = "1.7.0"
 compose = "1.1.1"
 lifecylce-runtime-ktx = "2.4.1"
 activity-compose = "1.4.0"
+navigation = "2.4.2"
 
 [libraries]
 coreKtx = { module = "androidx.core:core-ktx", version.ref = "core-ktx" }
 lifecycleRuntimeKtx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecylce-runtime-ktx" }
 activityCompose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
+navigation = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
 
 composeUi = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 composeMaterial = { module = "androidx.compose.material:material", version.ref = "compose" }
