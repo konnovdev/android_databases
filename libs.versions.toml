@@ -15,10 +15,12 @@ lifecycleRuntimeKtx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", ver
 activityCompose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
 navigation = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
 lifecycleViewmodelKtx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle-viewmodel-ktx" }
+
 hiltNavigationCompose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt-navigation-compose" }
 hiltCompiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hilt-compiler" }
 hiltAndroidCompiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "dagger-hilt" }
 daggerHiltAndroid = { module = "com.google.dagger:hilt-android", version.ref = "dagger-hilt" }
+gradlePluginHiltAndroid = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "dagger-hilt" }
 
 composeUi = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 composeMaterial = { module = "androidx.compose.material:material", version.ref = "compose" }
