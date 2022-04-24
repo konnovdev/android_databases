@@ -2,7 +2,7 @@ ext {
     application = [
             "id"          : "dev.konnov.databasesandroid",
             "minApi"      : 21,
-            "maxApi"      : 32,
+            "maxApi"      : 31,
             "toolsVersion": "29.0.3",
             "versionCode" : 1,
             "versionName" : "1.0",
