@@ -1,5 +1,5 @@
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
     id 'dagger.hilt.android.plugin'
     id 'kotlin-kapt'
@@ -11,23 +11,10 @@ android {
     compileSdk application.maxApi
 
     defaultConfig {
-        applicationId application.id
         minSdk application.minApi
         targetSdk application.maxApi
-        versionCode application.versionCode
-        versionName application.versionName
-
-        vectorDrawables {
-            useSupportLibrary true
-        }
     }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -41,11 +28,6 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion libs.versions.compose.get()
     }
-    packagingOptions {
-        resources {
-            excludes += '/META-INF/{AL2.0,LGPL2.1}'
-        }
-    }
 }
 
 dependencies {
@@ -54,12 +36,11 @@ dependencies {
     kapt(libs.hiltAndroidCompiler)
     kapt(libs.hiltCompiler)
 
-    implementation libs.activityCompose
     implementation libs.coreKtx
-    implementation libs.lifecycleViewmodelKtx
     implementation libs.lifecycleRuntimeKtx
-    implementation libs.navigation
-    implementation project(path: ':feature:sqlite-open-helper')
-    implementation project(path: ':feature:realm')
+    implementation libs.lifecycleViewmodelKtx
     implementation libs.bundles.composeDependencies
+
+    implementation project(path: ':common:db-testing-tools')
+    implementation project(path: ':common:dataset:weatherlogs')
 }

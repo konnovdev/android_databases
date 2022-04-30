@@ -20,6 +20,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.konnov.databasesandroid.ui.theme.DatabasesAndroidTheme
+import dev.konnov.feature.realm.ui.RealmScreen
 import dev.konnov.feature.sqliteopenhelper.ui.SqliteOpenHelperScreen
 
 @AndroidEntryPoint
@@ -30,8 +31,16 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
             NavHost(navController = navController, startDestination = "main") {
-                composable("main") { MainScreen({ navController.navigate("sqliteopenhelper") }) }
+                composable("main") {
+                    MainScreen(
+                        { navController.navigate("sqliteopenhelper") },
+                        { navController.navigate("realm") }
+                    )
+                }
+
                 composable("sqliteopenhelper") { SqliteOpenHelperScreen(hiltViewModel()) }
+
+                composable("realm") { RealmScreen(hiltViewModel()) }
             }
         }
     }
@@ -40,11 +49,14 @@ class MainActivity : ComponentActivity() {
 @Composable
 @Preview(showBackground = true, widthDp = 320, heightDp = 700)
 private fun PreviewMainScreen() {
-    MainScreen({})
+    MainScreen({}, {})
 }
 
 @Composable
-private fun MainScreen(sqliteOpenHelperClicked: () -> Unit) {
+private fun MainScreen(
+    sqliteOpenHelperClicked: () -> Unit,
+    realmClicked: () -> Unit
+) {
     DatabasesAndroidTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
@@ -58,6 +70,9 @@ private fun MainScreen(sqliteOpenHelperClicked: () -> Unit) {
                 Text(text = "Choose a db to test")
                 Button(onClick = { sqliteOpenHelperClicked() }) {
                     Text(text = "SqliteOpenHelper")
+                }
+                Button(onClick = { realmClicked() }) {
+                    Text(text = "Realm")
                 }
             }
         }
