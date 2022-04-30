@@ -1,0 +1,7 @@
+[versions]
+junit-core = "4.13.2"
+junit-jupiter = "5.8.2"
+
+[libraries]
+junitCore = { module = "junit:junit", version.ref = "junit-core" }
+junitJupiter = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit-jupiter" }

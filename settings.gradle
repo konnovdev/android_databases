@@ -18,9 +18,13 @@ dependencyResolutionManagement {
         libs {
             from(files("libs.versions.toml"))
         }
+        testLibs {
+            from(files('test-libs.versions.toml'))
+        }
     }
 }
 rootProject.name = "Databases Android"
 include ':app'
 include ':feature:sqlitehelper'
 include ':common:db-testing-tools'
+include ':common:dataset:weatherlogs'
