@@ -23,3 +23,4 @@ dependencyResolutionManagement {
 rootProject.name = "Databases Android"
 include ':app'
 include ':feature:sqlitehelper'
+include ':common:db-testing-tools'
