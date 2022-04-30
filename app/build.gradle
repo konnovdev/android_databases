@@ -59,6 +59,6 @@ dependencies {
     implementation libs.lifecycleViewmodelKtx
     implementation libs.lifecycleRuntimeKtx
     implementation libs.navigation
-    implementation project(path: ':feature:sqlitehelper')
+    implementation project(path: ':feature:sqlite-open-helper')
     implementation libs.bundles.composeDependencies
 }

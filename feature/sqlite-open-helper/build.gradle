@@ -40,4 +40,7 @@ dependencies {
     implementation libs.lifecycleRuntimeKtx
     implementation libs.lifecycleViewmodelKtx
     implementation libs.bundles.composeDependencies
+
+    implementation project(path: ':common:db-testing-tools')
+    implementation project(path: ':common:dataset:weatherlogs')
 }

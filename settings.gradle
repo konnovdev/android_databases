@@ -25,6 +25,6 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Databases Android"
 include ':app'
-include ':feature:sqlitehelper'
+include ':feature:sqlite-open-helper'
 include ':common:db-testing-tools'
 include ':common:dataset:weatherlogs'

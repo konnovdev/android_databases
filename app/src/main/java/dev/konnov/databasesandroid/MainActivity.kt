@@ -20,8 +20,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.konnov.databasesandroid.ui.theme.DatabasesAndroidTheme
-import dev.konnov.feature.sqlitehelper.SqliteHelperScreen
-import dev.konnov.feature.sqlitehelper.SqliteHelperViewModel
+import dev.konnov.feature.sqliteopenhelper.ui.SqliteOpenHelperScreen
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -31,8 +30,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
             NavHost(navController = navController, startDestination = "main") {
-                composable("main") { MainScreen({ navController.navigate("sqlitehelper") }) }
-                composable("sqlitehelper") { SqliteHelperScreen() }
+                composable("main") { MainScreen({ navController.navigate("sqliteopenhelper") }) }
+                composable("sqliteopenhelper") { SqliteOpenHelperScreen(hiltViewModel()) }
             }
         }
     }
@@ -45,7 +44,7 @@ private fun PreviewMainScreen() {
 }
 
 @Composable
-private fun MainScreen(sqliteHelperClicked: () -> Unit) {
+private fun MainScreen(sqliteOpenHelperClicked: () -> Unit) {
     DatabasesAndroidTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
@@ -57,10 +56,20 @@ private fun MainScreen(sqliteHelperClicked: () -> Unit) {
                     .padding(32.dp)
             ) {
                 Text(text = "Choose a db to test")
-                Button(onClick = { sqliteHelperClicked() }) {
-                    Text(text = "SqliteHelper")
+                Button(onClick = { sqliteOpenHelperClicked() }) {
+                    Text(text = "SqliteOpenHelper")
                 }
             }
         }
     }
 }
+
+
+// About hilt injection of the view model:
+/**
+ * According to official documentation https://developer.android.com/jetpack/compose/libraries#hilt-navigation
+ *
+ * If your @HiltViewModel annotated ViewModel is scoped to
+ * the navigation graph, use the hiltViewModel composable function
+ * that works with fragments or activities that are annotated with @AndroidEntryPoint.
+ */
