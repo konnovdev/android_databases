@@ -31,6 +31,9 @@ android {
 }
 
 dependencies {
+    implementation(libs.roomRuntime)
+    kapt(libs.roomCompiler)
+
     implementation libs.hiltNavigationCompose
     implementation libs.daggerHiltAndroid
     kapt(libs.hiltAndroidCompiler)

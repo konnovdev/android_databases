@@ -9,6 +9,7 @@ hilt-navigation-compose = "1.0.0"
 dagger-hilt = "2.41"
 hilt-compiler = "1.0.0"
 realm = "0.11.0"
+room = "2.4.2"
 
 [libraries]
 coreKtx = { module = "androidx.core:core-ktx", version.ref = "core-ktx" }
@@ -29,6 +30,8 @@ composeUiToolingPreview = { module = "androidx.compose.ui:ui-tooling-preview", v
 composeUiTooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 
 realm = { module = "io.realm.kotlin:library-base", version.ref = "realm" }
+roomRuntime = { module = "androidx.room:room-runtime", version.ref = "room" }
+roomCompiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 
 [bundles]
 composeDependencies = ["composeUi", "composeMaterial", "composeUiToolingPreview", "composeUiTooling"]
