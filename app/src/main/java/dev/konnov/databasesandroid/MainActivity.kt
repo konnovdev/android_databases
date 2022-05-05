@@ -21,6 +21,9 @@ import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.konnov.databasesandroid.ui.theme.DatabasesAndroidTheme
 import dev.konnov.feature.realm.ui.RealmScreen
+import dev.konnov.feature.room.ObjectBoxScreen
+import dev.konnov.feature.room.RoomScreen
+import dev.konnov.feature.sqldelight.SqlDelightScreen
 import dev.konnov.feature.sqliteopenhelper.ui.SqliteOpenHelperScreen
 
 @AndroidEntryPoint
@@ -34,13 +37,22 @@ class MainActivity : ComponentActivity() {
                 composable("main") {
                     MainScreen(
                         { navController.navigate("sqliteopenhelper") },
-                        { navController.navigate("realm") }
+                        { navController.navigate("realm") },
+                        { navController.navigate("room") },
+                        { navController.navigate("objectbox") },
+                        { navController.navigate("sqldelight") },
                     )
                 }
 
                 composable("sqliteopenhelper") { SqliteOpenHelperScreen(hiltViewModel()) }
 
                 composable("realm") { RealmScreen(hiltViewModel()) }
+
+                composable("room") { RoomScreen(hiltViewModel()) }
+
+                composable("objectbox") { ObjectBoxScreen(hiltViewModel()) }
+
+                composable("sqldelight") { SqlDelightScreen(hiltViewModel()) }
             }
         }
     }
@@ -49,13 +61,16 @@ class MainActivity : ComponentActivity() {
 @Composable
 @Preview(showBackground = true, widthDp = 320, heightDp = 700)
 private fun PreviewMainScreen() {
-    MainScreen({}, {})
+    MainScreen({}, {}, {}, {}, {})
 }
 
 @Composable
 private fun MainScreen(
     sqliteOpenHelperClicked: () -> Unit,
-    realmClicked: () -> Unit
+    realmClicked: () -> Unit,
+    roomClicked: () -> Unit,
+    objectBoxClicked: () -> Unit,
+    sqlDelightClicked: () -> Unit,
 ) {
     DatabasesAndroidTheme {
         Surface(
@@ -73,6 +88,15 @@ private fun MainScreen(
                 }
                 Button(onClick = { realmClicked() }) {
                     Text(text = "Realm")
+                }
+                Button(onClick = { roomClicked() }) {
+                    Text(text = "Room")
+                }
+                Button(onClick = { objectBoxClicked() }) {
+                    Text(text = "ObjectBox")
+                }
+                Button(onClick = { sqlDelightClicked() }) {
+                    Text(text = "SqlDelight")
                 }
             }
         }
