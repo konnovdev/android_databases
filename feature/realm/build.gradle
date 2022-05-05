@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'dagger.hilt.android.plugin'
     id 'kotlin-kapt'
+    id "io.realm.kotlin" version "0.11.0"
 }
 
 apply(from: "$rootDir/application.gradle")
@@ -40,6 +41,8 @@ dependencies {
     implementation libs.lifecycleRuntimeKtx
     implementation libs.lifecycleViewmodelKtx
     implementation libs.bundles.composeDependencies
+
+    implementation("io.realm.kotlin:library-base:0.11.0")
 
     implementation project(path: ':common:db-testing-tools')
     implementation project(path: ':common:dataset:weatherlogs')
