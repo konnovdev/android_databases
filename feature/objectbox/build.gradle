@@ -1,0 +1,46 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'dagger.hilt.android.plugin'
+    id 'kotlin-kapt'
+}
+
+apply(from: "$rootDir/application.gradle")
+
+android {
+    compileSdk application.maxApi
+
+    defaultConfig {
+        minSdk application.minApi
+        targetSdk application.maxApi
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion libs.versions.compose.get()
+    }
+}
+
+dependencies {
+    implementation libs.hiltNavigationCompose
+    implementation libs.daggerHiltAndroid
+    kapt(libs.hiltAndroidCompiler)
+    kapt(libs.hiltCompiler)
+
+    implementation libs.coreKtx
+    implementation libs.lifecycleRuntimeKtx
+    implementation libs.lifecycleViewmodelKtx
+    implementation libs.bundles.composeDependencies
+
+    implementation project(path: ':common:db-testing-tools')
+    implementation project(path: ':common:dataset:weatherlogs')
+}
