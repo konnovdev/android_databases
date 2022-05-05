@@ -8,6 +8,7 @@ lifecycle-viewmodel-ktx = "2.4.1"
 hilt-navigation-compose = "1.0.0"
 dagger-hilt = "2.41"
 hilt-compiler = "1.0.0"
+realm = "0.11.0"
 
 [libraries]
 coreKtx = { module = "androidx.core:core-ktx", version.ref = "core-ktx" }
@@ -27,5 +28,10 @@ composeMaterial = { module = "androidx.compose.material:material", version.ref =
 composeUiToolingPreview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
 composeUiTooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 
+realm = { module = "io.realm.kotlin:library-base", version.ref = "realm" }
+
 [bundles]
 composeDependencies = ["composeUi", "composeMaterial", "composeUiToolingPreview", "composeUiTooling"]
+
+[plugins]
+realm = { id = "io.realm.kotlin", version.ref = "realm" }
