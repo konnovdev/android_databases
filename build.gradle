@@ -2,6 +2,8 @@ buildscript {
     dependencies {
         def libs = project.extensions.getByType(VersionCatalogsExtension).named("libs") as org.gradle.accessors.dm.LibrariesForLibs
         classpath(libs.gradlePluginHiltAndroid)
+        classpath(libs.gradlePluginSqlDelight)
+        classpath(libs.gradlePluginObjectBox)
     }
 }
 

@@ -10,6 +10,8 @@ dagger-hilt = "2.41"
 hilt-compiler = "1.0.0"
 realm = "0.11.0"
 room = "2.4.2"
+sqldelight = "1.5.3"
+objectbox = "3.1.2"
 
 [libraries]
 coreKtx = { module = "androidx.core:core-ktx", version.ref = "core-ktx" }
@@ -32,6 +34,9 @@ composeUiTooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "c
 realm = { module = "io.realm.kotlin:library-base", version.ref = "realm" }
 roomRuntime = { module = "androidx.room:room-runtime", version.ref = "room" }
 roomCompiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+gradlePluginSqlDelight= { module = "com.squareup.sqldelight:gradle-plugin", version.ref = "sqldelight" }
+sqlDelightRuntime = { module = "com.squareup.sqldelight:android-driver", version.ref = "sqldelight" }
+gradlePluginObjectBox = { module = "io.objectbox:objectbox-gradle-plugin", version.ref = "objectbox" }
 
 [bundles]
 composeDependencies = ["composeUi", "composeMaterial", "composeUiToolingPreview", "composeUiTooling"]

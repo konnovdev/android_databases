@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'dagger.hilt.android.plugin'
     id 'kotlin-kapt'
+    id 'com.squareup.sqldelight'
 }
 
 apply(from: "$rootDir/application.gradle")
@@ -35,6 +36,8 @@ dependencies {
     implementation libs.daggerHiltAndroid
     kapt(libs.hiltAndroidCompiler)
     kapt(libs.hiltCompiler)
+
+    implementation libs.sqlDelightRuntime
 
     implementation libs.coreKtx
     implementation libs.lifecycleRuntimeKtx
