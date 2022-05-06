@@ -59,6 +59,7 @@ dependencies {
     implementation libs.lifecycleViewmodelKtx
     implementation libs.lifecycleRuntimeKtx
     implementation libs.navigation
+    implementation project(path: ':feature:shared-preferences')
     implementation project(path: ':feature:sqlite-open-helper')
     implementation project(path: ':feature:realm')
     implementation project(path: ':feature:room')

@@ -23,6 +23,7 @@ import dev.konnov.databasesandroid.ui.theme.DatabasesAndroidTheme
 import dev.konnov.feature.realm.ui.RealmScreen
 import dev.konnov.feature.room.ObjectBoxScreen
 import dev.konnov.feature.room.RoomScreen
+import dev.konnov.feature.sharedpreferences.di.SharedPreferenceScreen
 import dev.konnov.feature.sqldelight.ui.SqlDelightScreen
 import dev.konnov.feature.sqliteopenhelper.ui.SqliteOpenHelperScreen
 
@@ -41,6 +42,7 @@ class MainActivity : ComponentActivity() {
                         { navController.navigate("room") },
                         { navController.navigate("objectbox") },
                         { navController.navigate("sqldelight") },
+                        { navController.navigate("sharedpreferences") }
                     )
                 }
 
@@ -53,6 +55,8 @@ class MainActivity : ComponentActivity() {
                 composable("objectbox") { ObjectBoxScreen(hiltViewModel()) }
 
                 composable("sqldelight") { SqlDelightScreen(hiltViewModel()) }
+
+                composable("sharedpreferences") { SharedPreferenceScreen(hiltViewModel()) }
             }
         }
     }
@@ -61,7 +65,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 @Preview(showBackground = true, widthDp = 320, heightDp = 700)
 private fun PreviewMainScreen() {
-    MainScreen({}, {}, {}, {}, {})
+    MainScreen({}, {}, {}, {}, {}, {})
 }
 
 @Composable
@@ -71,6 +75,7 @@ private fun MainScreen(
     roomClicked: () -> Unit,
     objectBoxClicked: () -> Unit,
     sqlDelightClicked: () -> Unit,
+    sharedPrefencesClicked: () -> Unit
 ) {
     DatabasesAndroidTheme {
         Surface(
@@ -97,6 +102,9 @@ private fun MainScreen(
                 }
                 Button(onClick = { sqlDelightClicked() }) {
                     Text(text = "SqlDelight")
+                }
+                Button(onClick = { sharedPrefencesClicked() }) {
+                    Text(text = "sharedPreferences")
                 }
             }
         }

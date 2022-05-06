@@ -26,6 +26,7 @@ dependencyResolutionManagement {
 rootProject.name = "Databases Android"
 include ':app'
 
+include ':feature:shared-preferences'
 include ':feature:sqlite-open-helper'
 include ':feature:sqldelight'
 include ':feature:objectbox'
