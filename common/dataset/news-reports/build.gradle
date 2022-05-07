@@ -1,0 +1,8 @@
+plugins {
+    id 'kotlin'
+}
+
+dependencies {
+    testImplementation testLibs.junitCore
+    testImplementation testLibs.junitJupiter
+}

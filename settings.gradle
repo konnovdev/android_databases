@@ -35,3 +35,4 @@ include ':feature:room'
 
 include ':common:db-testing-tools'
 include ':common:dataset:weatherlogs'
+include ':common:dataset:news-reports'
