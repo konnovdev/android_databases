@@ -10,25 +10,9 @@ package dev.konnov.common.dataset.weatherlogs
  */
 object WeatherLogDataGenerator {
 
-    fun get10kEntities(): List<WeatherLog> {
+    fun getEntities(size: Int): List<WeatherLog> {
         val entitiesList = mutableListOf<WeatherLog>()
-        for (i in 1..10_000) {
-            entitiesList.add(generateWeatherLog(i))
-        }
-        return entitiesList
-    }
-
-    fun get100kEntities(): List<WeatherLog> {
-        val entitiesList = mutableListOf<WeatherLog>()
-        for (i in 1..100_000) {
-            entitiesList.add(generateWeatherLog(i))
-        }
-        return entitiesList
-    }
-
-    fun get1MEntities(): List<WeatherLog> {
-        val entitiesList = mutableListOf<WeatherLog>()
-        for (i in 1..1_000_000) {
+        for (i in 1..size) {
             entitiesList.add(generateWeatherLog(i))
         }
         return entitiesList

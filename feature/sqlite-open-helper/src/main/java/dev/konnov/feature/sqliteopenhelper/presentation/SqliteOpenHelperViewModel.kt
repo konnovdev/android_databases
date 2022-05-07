@@ -6,6 +6,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.konnov.feature.sqliteopenhelper.data.WeatherRepository
 import dev.konnov.common.dataset.weatherlogs.WeatherLog
 import dev.konnov.common.dataset.weatherlogs.WeatherLogDataGenerator
+import dev.konnov.common.dbtestingtools.SIZE_100k
+import dev.konnov.common.dbtestingtools.SIZE_10k
+import dev.konnov.common.dbtestingtools.SIZE_1M
 import java.lang.StringBuilder
 import javax.inject.Inject
 
@@ -16,15 +19,15 @@ class SqliteOpenHelperViewModel @Inject constructor(
 
     fun testDbSpeed() {
         for (i in 0..10) {
-            test(WeatherLogDataGenerator.get10kEntities())
+            test(WeatherLogDataGenerator.getEntities(SIZE_10k))
         }
 
         for (i in 0..10) {
-            test(WeatherLogDataGenerator.get100kEntities())
+            test(WeatherLogDataGenerator.getEntities(SIZE_100k))
         }
 
         for (i in 0..10) {
-            test(WeatherLogDataGenerator.get1MEntities())
+            test(WeatherLogDataGenerator.getEntities(SIZE_1M))
         }
     }
 

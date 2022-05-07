@@ -6,15 +6,15 @@ internal class WeatherLogDataGeneratorTest {
 
     @Test
     fun itemSizesAreCorrect() {
-        assertEquals(10_000, WeatherLogDataGenerator.get10kEntities().size)
-        assertEquals(100_000, WeatherLogDataGenerator.get100kEntities().size)
-        assertEquals(1_000_000, WeatherLogDataGenerator.get1MEntities().size)
+        assertEquals(10_000, WeatherLogDataGenerator.getEntities(10_000).size)
+        assertEquals(100_000, WeatherLogDataGenerator.getEntities(100_000).size)
+        assertEquals(1_000_000, WeatherLogDataGenerator.getEntities(1_000_000).size)
     }
 
     @Test
     fun temperatureHasNegativeNumbers() {
         val negativeTemperaturesCount =
-            WeatherLogDataGenerator.get10kEntities().count { it.temperature < 0 }
+            WeatherLogDataGenerator.getEntities(10_000).count { it.temperature < 0 }
 
         println("Negative temperatures count: $negativeTemperaturesCount")
 
@@ -23,7 +23,7 @@ internal class WeatherLogDataGeneratorTest {
 
     @Test
     fun highUniqueItemsFrequency() {
-        val entities = WeatherLogDataGenerator.get1MEntities()
+        val entities = WeatherLogDataGenerator.getEntities(1_000_000)
         val temperatures = entities.map { it.temperature }
         val humidities = entities.map { it.humidity }
         val pressures = entities.map { it.pressure }
@@ -49,5 +49,13 @@ internal class WeatherLogDataGeneratorTest {
         assert(temperatureUniqueness > 0.99)
         assert(humidityUniqueness > 0.99)
         assert(pressureUniqueness > 0.99)
+    }
+
+    @Test
+    fun twoGenerationsGiveTheSameItem() {
+        val firstGeneration = WeatherLogDataGenerator.getEntities(1_000_000)
+        val secondGeneration = WeatherLogDataGenerator.getEntities(1_000_000)
+
+        assert(firstGeneration == secondGeneration)
     }
 }

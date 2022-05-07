@@ -7,3 +7,7 @@ enum class DataSetType {
     STRING,
     MIXED
 }
+
+const val SIZE_10k = 10_000
+const val SIZE_100k = 100_000
+const val SIZE_1M = 1_000_000
