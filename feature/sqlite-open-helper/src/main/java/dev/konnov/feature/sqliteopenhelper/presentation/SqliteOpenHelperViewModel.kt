@@ -1,7 +1,7 @@
 package dev.konnov.feature.sqliteopenhelper.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.konnov.feature.sqliteopenhelper.data.WeatherRepository
 import dev.konnov.common.dataset.weatherlogs.WeatherLog
@@ -9,6 +9,11 @@ import dev.konnov.common.dataset.weatherlogs.WeatherLogDataGenerator
 import dev.konnov.common.dbtestingtools.SIZE_100k
 import dev.konnov.common.dbtestingtools.SIZE_10k
 import dev.konnov.common.dbtestingtools.SIZE_1M
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.lang.StringBuilder
 import javax.inject.Inject
 
@@ -17,23 +22,32 @@ class SqliteOpenHelperViewModel @Inject constructor(
     private val weatherRepository: WeatherRepository
 ) : ViewModel() {
 
+    private val _state = MutableStateFlow<SqliteOpenHelperState>(SqliteOpenHelperState.InProgress)
+    val state: StateFlow<SqliteOpenHelperState> = _state
+
     fun testDbSpeed() {
-        for (i in 0..10) {
-            test(WeatherLogDataGenerator.getEntities(SIZE_10k))
-        }
+        viewModelScope.launch {
+            val dbTestSpeedResultOutput = StringBuilder("SQLiteOpenHelper test for WeatherLog entity.\n")
+            withContext(IO) {
+                for (i in 0..TEST_ITERATIONS) {
+                    dbTestSpeedResultOutput.append(test(WeatherLogDataGenerator.getEntities(SIZE_10k)))
+                }
 
-        for (i in 0..10) {
-            test(WeatherLogDataGenerator.getEntities(SIZE_100k))
-        }
+                for (i in 0..TEST_ITERATIONS) {
+                    dbTestSpeedResultOutput.append(test(WeatherLogDataGenerator.getEntities(SIZE_100k)))
+                }
 
-        for (i in 0..10) {
-            test(WeatherLogDataGenerator.getEntities(SIZE_1M))
+                for (i in 0..TEST_ITERATIONS) {
+                    dbTestSpeedResultOutput.append(test(WeatherLogDataGenerator.getEntities(SIZE_1M)))
+                }
+            }
+            _state.value = SqliteOpenHelperState.Content(dbTestSpeedResultOutput.toString())
         }
     }
 
-    private fun test(entries: List<WeatherLog>) {
+    private fun test(entries: List<WeatherLog>): String {
         val dbTestSpeedResultOutput =
-            StringBuilder("SQLiteOpenHelper test for WeatherLog entity. ${entries.size} entries.\n")
+            StringBuilder("Test for ${entries.size} entries.\n")
 
         val weatherLogToInsert = WeatherLog(14.0, 3123.1, 33.0)
 
@@ -48,6 +62,10 @@ class SqliteOpenHelperViewModel @Inject constructor(
             append("updateResult: $updateResult\n")
             append("loadByParameterResult: $loadByParameterResult\n\n")
         }
-        Log.v("notag", dbTestSpeedResultOutput.toString()) // TODO show and save logs
+        return dbTestSpeedResultOutput.toString()
+    }
+
+    private companion object {
+        const val TEST_ITERATIONS = 10
     }
 }
