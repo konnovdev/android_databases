@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.konnov.common.dataset.newsreports.NewsReport
 import dev.konnov.common.dataset.newsreports.NewsReportDataGenerator
+import dev.konnov.common.dataset.newsreports.Title
+import dev.konnov.common.dataset.weatherlogs.Temperature
 import dev.konnov.feature.sqliteopenhelper.data.WeatherRepository
 import dev.konnov.common.dataset.weatherlogs.WeatherLog
 import dev.konnov.common.dataset.weatherlogs.WeatherLogDataGenerator
@@ -51,13 +53,15 @@ class SqliteOpenHelperViewModel @Inject constructor(
         val dbTestSpeedResultOutput =
             StringBuilder("Test for ${entries.size} entries.\n")
 
-        val weatherLogToInsert = WeatherLog(14.0, 3123.1, 33.0)
+        val oldTemperature = Temperature(13.0)
+        val newTemperature = Temperature(14.0)
+        val weatherLogToInsert = WeatherLog(newTemperature, 3123.1, 33.0)
 
         val insertResult = weatherRepository.insert(entries)
         val loadEverythingResult = weatherRepository.loadEverything()
-        val updateResult = weatherRepository.update(13.0, weatherLogToInsert)
-        val loadByParameterResult = weatherRepository.loadByParameter(14.0)
-        val deleteResult = weatherRepository.delete(14.0)
+        val updateResult = weatherRepository.update(oldTemperature, weatherLogToInsert)
+        val loadByParameterResult = weatherRepository.loadByParameter(newTemperature)
+        val deleteResult = weatherRepository.delete(newTemperature)
 
         with(dbTestSpeedResultOutput) {
             append("insertResult: $insertResult\n")
@@ -73,14 +77,15 @@ class SqliteOpenHelperViewModel @Inject constructor(
         val dbTestSpeedResultOutput =
             StringBuilder("Test for ${entries.size} entries.\n")
 
-        val param = "Morning in Las Vegas"
-        val newsReportsToInsert = NewsReport("Some news title", "Some news description")
+        val oldTitle = Title("Morning in Las Vegas")
+        val newTitle = Title("Some news title")
+        val newsReportsToInsert = NewsReport(newTitle, "Some news description")
 
         val insertResult = newsReportRepository.insert(entries)
         val loadEverythingResult = newsReportRepository.loadEverything()
-        val updateResult = newsReportRepository.update(param, newsReportsToInsert)
-        val loadByParameterResult = newsReportRepository.loadByParameter(param)
-        val deleteResult = newsReportRepository.delete("Some news title")
+        val updateResult = newsReportRepository.update(oldTitle, newsReportsToInsert)
+        val loadByParameterResult = newsReportRepository.loadByParameter(newTitle)
+        val deleteResult = newsReportRepository.delete(newTitle)
 
         with(dbTestSpeedResultOutput) {
             append("insertResult: $insertResult\n")

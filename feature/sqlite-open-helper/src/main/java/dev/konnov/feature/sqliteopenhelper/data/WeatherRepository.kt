@@ -1,68 +1,45 @@
 package dev.konnov.feature.sqliteopenhelper.data
 
-import dev.konnov.common.dbtestingtools.DataSetType
+import dev.konnov.common.dataset.weatherlogs.Temperature
 import dev.konnov.common.dataset.weatherlogs.WeatherLog
-import dev.konnov.common.dbtestingtools.DbTestRepository
-import dev.konnov.common.dbtestingtools.TestResult
-import dev.konnov.common.dbtestingtools.TestType
+import dev.konnov.common.dbtestingtools.*
 import javax.inject.Inject
 
 class WeatherRepository @Inject constructor(
-    private val sqliteOpenManager: SqliteOpenHelperDbManager
-): DbTestRepository<WeatherLog, Double> {
+    private val sqliteOpenManager: SqliteOpenHelperDbManager,
+    private val testResultCalculator: TestResultCalculator
+) : DbTestRepository<WeatherLog, Temperature> {
 
     override fun insert(items: List<WeatherLog>): TestResult {
         sqliteOpenManager.deleteAllWeatherData()
 
-        val startTimestamp = System.currentTimeMillis()
-        sqliteOpenManager.addWeather(items)
-        val endTimestamp = System.currentTimeMillis()
-        val timeTaken = endTimestamp - startTimestamp
-
-        return TestResult(timeTaken, DataSetType.REAL, items.size, TestType.INSERT)
+        return testResultCalculator.getResult(DataSetType.REAL, OperationType.INSERT) {
+            sqliteOpenManager.addWeather(items)
+            DataSetSize(items.size)
+        }
     }
 
-    override fun loadEverything(): TestResult {
-        val startTimestamp = System.currentTimeMillis()
+    override fun loadEverything(): TestResult =
+        testResultCalculator.getResult(DataSetType.REAL, OperationType.LOAD_ALL) {
+            val retrievedData = sqliteOpenManager.getAllWeatherData()
+            DataSetSize(retrievedData.size)
+        }
 
-        val retrievedData = sqliteOpenManager.getAllWeatherData()
+    override fun update(param: Temperature, item: WeatherLog): TestResult =
+        testResultCalculator.getResult(DataSetType.REAL, OperationType.UPDATE) {
+            val affectedRows = sqliteOpenManager.updateByTemperature(param.temperature, item)
+            DataSetSize(affectedRows)
+        }
 
-        val endTimestamp = System.currentTimeMillis()
-        val timeTaken = endTimestamp - startTimestamp
+    override fun loadByParameter(param: Temperature): TestResult =
+        testResultCalculator.getResult(DataSetType.REAL, OperationType.LOAD_BY_PARAM) {
+            val result = sqliteOpenManager.getWeatherByTemperature(param.temperature)
+            DataSetSize(result.size)
+        }
 
-        return TestResult(timeTaken, DataSetType.REAL, retrievedData.size, TestType.LOAD_ALL)
-    }
-
-    override fun update(temperature: Double, item: WeatherLog): TestResult {
-        val startTimestamp = System.currentTimeMillis()
-
-        val affectedRows = sqliteOpenManager.updateByTemperature(temperature, item)
-
-        val endTimestamp = System.currentTimeMillis()
-        val timeTaken = endTimestamp - startTimestamp
-
-        return TestResult(timeTaken, DataSetType.REAL, affectedRows, TestType.UPDATE)
-    }
-
-    override fun loadByParameter(temperature: Double): TestResult {
-        val startTimestamp = System.currentTimeMillis()
-
-        val result = sqliteOpenManager.getWeatherByTemperature(temperature)
-
-        val endTimestamp = System.currentTimeMillis()
-        val timeTaken = endTimestamp - startTimestamp
-
-        return TestResult(timeTaken, DataSetType.REAL, result.size, TestType.LOAD_BY_PARAM)
-    }
-
-    override fun delete(temperature: Double): TestResult {
-        val startTimestamp = System.currentTimeMillis()
-
-        val result = sqliteOpenManager.getWeatherByTemperature(temperature)
-
-        val endTimestamp = System.currentTimeMillis()
-        val timeTaken = endTimestamp - startTimestamp
-
-        return TestResult(timeTaken, DataSetType.REAL, result.size, TestType.DELETE)
-    }
+    override fun delete(param: Temperature): TestResult =
+        testResultCalculator.getResult(DataSetType.REAL, OperationType.DELETE) {
+            val result = sqliteOpenManager.getWeatherByTemperature(param.temperature)
+            DataSetSize(result.size)
+        }
 }

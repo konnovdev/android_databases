@@ -18,7 +18,7 @@ object NewsReportDataGenerator {
     }
 
     private fun generateNewsReport(index: Int): NewsReport =
-        NewsReport(generateTitle(index), generateDescription(index))
+        NewsReport(Title(generateTitle(index)), generateDescription(index))
 
     private fun generateTitle(index: Int): String =
         when {

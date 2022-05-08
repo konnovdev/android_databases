@@ -1,3 +1,4 @@
+import dev.konnov.common.dataset.weatherlogs.Temperature
 import dev.konnov.common.dataset.weatherlogs.WeatherLogDataGenerator
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
@@ -14,7 +15,7 @@ internal class WeatherLogDataGeneratorTest {
     @Test
     fun temperatureHasNegativeNumbers() {
         val negativeTemperaturesCount =
-            WeatherLogDataGenerator.getEntities(10_000).count { it.temperature < 0 }
+            WeatherLogDataGenerator.getEntities(10_000).count { it.temperature.temperature < 0 }
 
         println("Negative temperatures count: $negativeTemperaturesCount")
 
@@ -28,7 +29,7 @@ internal class WeatherLogDataGeneratorTest {
         val humidities = entities.map { it.humidity }
         val pressures = entities.map { it.pressure }
 
-        val uniqueTemperatures = mutableSetOf<Double>()
+        val uniqueTemperatures = mutableSetOf<Temperature>()
         uniqueTemperatures.addAll(temperatures)
 
         val uniqueHumidities = mutableSetOf<Double>()

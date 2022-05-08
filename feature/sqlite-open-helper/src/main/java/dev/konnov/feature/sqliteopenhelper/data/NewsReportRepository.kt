@@ -1,68 +1,45 @@
 package dev.konnov.feature.sqliteopenhelper.data
 
 import dev.konnov.common.dataset.newsreports.NewsReport
-import dev.konnov.common.dbtestingtools.DataSetType
-import dev.konnov.common.dbtestingtools.DbTestRepository
-import dev.konnov.common.dbtestingtools.TestResult
-import dev.konnov.common.dbtestingtools.TestType
+import dev.konnov.common.dataset.newsreports.Title
+import dev.konnov.common.dbtestingtools.*
 import javax.inject.Inject
 
 class NewsReportRepository @Inject constructor(
-    private val sqliteOpenManager: SqliteOpenHelperDbManager
-): DbTestRepository<NewsReport, String> {
+    private val sqliteOpenManager: SqliteOpenHelperDbManager,
+    private val testResultCalculator: TestResultCalculator
+) : DbTestRepository<NewsReport, Title> {
 
     override fun insert(items: List<NewsReport>): TestResult {
         sqliteOpenManager.deleteAllNewsReportsData()
 
-        val startTimestamp = System.currentTimeMillis()
-        sqliteOpenManager.addNewsReports(items)
-        val endTimestamp = System.currentTimeMillis()
-        val timeTaken = endTimestamp - startTimestamp
-
-        return TestResult(timeTaken, DataSetType.STRING, items.size, TestType.INSERT)
+        return testResultCalculator.getResult(DataSetType.STRING, OperationType.INSERT) {
+            sqliteOpenManager.addNewsReports(items)
+            DataSetSize(items.size)
+        }
     }
 
-    override fun loadEverything(): TestResult {
-        val startTimestamp = System.currentTimeMillis()
+    override fun loadEverything(): TestResult =
+        testResultCalculator.getResult(DataSetType.STRING, OperationType.LOAD_ALL) {
+            val retrievedData = sqliteOpenManager.getAllNewsData()
+            DataSetSize(retrievedData.size)
+        }
 
-        val retrievedData = sqliteOpenManager.getAllNewsData()
+    override fun loadByParameter(param: Title): TestResult =
+        testResultCalculator.getResult(DataSetType.STRING, OperationType.LOAD_BY_PARAM) {
+            val result = sqliteOpenManager.getNewsByTitle(param.title)
+            DataSetSize(result.size)
+        }
 
-        val endTimestamp = System.currentTimeMillis()
-        val timeTaken = endTimestamp - startTimestamp
+    override fun update(param: Title, item: NewsReport): TestResult =
+        testResultCalculator.getResult(DataSetType.STRING, OperationType.UPDATE) {
+            val affectedRows = sqliteOpenManager.updateByTitle(param.title, item)
+            DataSetSize(affectedRows)
+        }
 
-        return TestResult(timeTaken, DataSetType.STRING, retrievedData.size, TestType.LOAD_ALL)
-    }
-
-    override fun loadByParameter(title: String): TestResult {
-        val startTimestamp = System.currentTimeMillis()
-
-        val result = sqliteOpenManager.getNewsByTitle(title)
-
-        val endTimestamp = System.currentTimeMillis()
-        val timeTaken = endTimestamp - startTimestamp
-
-        return TestResult(timeTaken, DataSetType.STRING, result.size, TestType.LOAD_BY_PARAM)
-    }
-
-    override fun update(title: String, item: NewsReport): TestResult {
-        val startTimestamp = System.currentTimeMillis()
-
-        val affectedRows = sqliteOpenManager.updateByTitle(title, item)
-
-        val endTimestamp = System.currentTimeMillis()
-        val timeTaken = endTimestamp - startTimestamp
-
-        return TestResult(timeTaken, DataSetType.STRING, affectedRows, TestType.UPDATE)
-    }
-
-    override fun delete(title: String): TestResult {
-        val startTimestamp = System.currentTimeMillis()
-
-        val affectedRows = sqliteOpenManager.deleteNewsByTitle(title)
-
-        val endTimestamp = System.currentTimeMillis()
-        val timeTaken = endTimestamp - startTimestamp
-
-        return TestResult(timeTaken, DataSetType.STRING, affectedRows, TestType.DELETE)
-    }
+    override fun delete(param: Title): TestResult =
+        testResultCalculator.getResult(DataSetType.STRING, OperationType.DELETE) {
+            val affectedRows = sqliteOpenManager.deleteNewsByTitle(param.title)
+            DataSetSize(affectedRows)
+        }
 }

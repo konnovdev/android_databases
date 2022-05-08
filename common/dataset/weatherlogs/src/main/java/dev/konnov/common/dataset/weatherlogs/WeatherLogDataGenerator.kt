@@ -22,7 +22,7 @@ object WeatherLogDataGenerator {
         val temperature = generateTemperature(index)
         val humidity = generateHumidity(index)
         val pressure = generatePressure(index)
-        return WeatherLog(temperature, humidity, pressure)
+        return WeatherLog(Temperature(temperature), humidity, pressure)
     }
 
     private fun generateTemperature(index: Int): Double {

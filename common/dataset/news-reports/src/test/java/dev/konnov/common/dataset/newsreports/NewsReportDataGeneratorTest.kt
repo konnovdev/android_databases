@@ -17,7 +17,7 @@ internal class NewsReportDataGeneratorTest {
         val items = NewsReportDataGenerator.getEntities(1_000_000)
         val titles = items.map { it.title }
         val descriptions = items.map { it.description }
-        val uniqueTitles = mutableSetOf<String>()
+        val uniqueTitles = mutableSetOf<Title>()
         uniqueTitles.addAll(titles)
 
         val titleUniqueness = uniqueTitles.size.toDouble() / titles.size.toDouble()

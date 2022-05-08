@@ -4,7 +4,7 @@ data class TestResult(
     val timeInMillis: Long,
     val dataSetType: DataSetType,
     val numberOfEntries: Int,
-    val testType: TestType
+    val operationType: OperationType
 )
 
 enum class DataSetType {
@@ -17,7 +17,7 @@ const val SIZE_10k = 10_000
 const val SIZE_100k = 100_000
 const val SIZE_1M = 1_000_000
 
-enum class TestType {
+enum class OperationType {
     INSERT,
     LOAD_ALL,
     LOAD_BY_PARAM,
