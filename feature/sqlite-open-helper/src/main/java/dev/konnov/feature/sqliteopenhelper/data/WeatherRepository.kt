@@ -11,10 +11,10 @@ class WeatherRepository @Inject constructor(
 ): DbTestRepository<WeatherLog, Double> {
 
     override fun insert(items: List<WeatherLog>): TestResult {
-        sqliteOpenManager.deleteAllData()
+        sqliteOpenManager.deleteAllWeatherData()
 
         val startTimestamp = System.currentTimeMillis()
-        sqliteOpenManager.add(items)
+        sqliteOpenManager.addWeather(items)
         val endTimestamp = System.currentTimeMillis()
         val timeTaken = endTimestamp - startTimestamp
 
@@ -24,7 +24,7 @@ class WeatherRepository @Inject constructor(
     override fun loadEverything(): TestResult {
         val startTimestamp = System.currentTimeMillis()
 
-        val retrievedData = sqliteOpenManager.getAll()
+        val retrievedData = sqliteOpenManager.getAllWeatherData()
 
         val endTimestamp = System.currentTimeMillis()
         val timeTaken = endTimestamp - startTimestamp
@@ -46,7 +46,7 @@ class WeatherRepository @Inject constructor(
     override fun loadByParameter(temperature: Double): TestResult {
         val startTimestamp = System.currentTimeMillis()
 
-        val result = sqliteOpenManager.getByTemperature(temperature)
+        val result = sqliteOpenManager.getWeatherByTemperature(temperature)
 
         val endTimestamp = System.currentTimeMillis()
         val timeTaken = endTimestamp - startTimestamp

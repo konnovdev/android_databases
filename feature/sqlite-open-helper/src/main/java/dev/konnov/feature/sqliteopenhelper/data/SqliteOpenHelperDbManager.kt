@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import dev.konnov.common.dataset.newsreports.NewsReport
 import dev.konnov.common.dataset.weatherlogs.WeatherLog
 import javax.inject.Inject
 
@@ -20,21 +21,34 @@ class SqliteOpenHelperDbManager @Inject constructor(
                 COLUMN_WEATHER_PRESSURE + " REAL" +
                 ")";
 
+        val createNewsReportsTableQuery = "CREATE TABLE " + TABLE_NEWS_REPORT +
+                "(" +
+                COLUMN_NEWS_REPORT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_NEWS_REPORT_TITLE + " TEXT, " +
+                COLUMN_NEWS_REPORT_DESCRIPTION + " TEXT, " +
+                ")";
+
         db?.execSQL(createWeatherLogsTableQuery)
+        db?.execSQL(createNewsReportsTableQuery)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         if (oldVersion != newVersion) {
             db?.execSQL("DROP TABLE IF EXISTS $TABLE_WEATHER");
+            db?.execSQL("DROP TABLE IF EXISTS $TABLE_NEWS_REPORT");
             onCreate(db);
         }
     }
 
-    fun deleteAllData() {
+    fun deleteAllWeatherData() {
         writableDatabase.execSQL("DELETE FROM $TABLE_WEATHER")
     }
 
-    fun getAll(): List<WeatherLog> {
+    fun deleteAllNewsReportsData() {
+        writableDatabase.execSQL("DELETE FROM $TABLE_NEWS_REPORT")
+    }
+
+    fun getAllWeatherData(): List<WeatherLog> {
         val weatherLogsSelectQuery = "SELECT * FROM $TABLE_WEATHER"
         val weatherLogs = mutableListOf<WeatherLog>()
 
@@ -54,7 +68,25 @@ class SqliteOpenHelperDbManager @Inject constructor(
         return weatherLogs
     }
 
-    fun getByTemperature(temperature: Double): List<WeatherLog> {
+    fun getAllNewsData(): List<NewsReport> {
+        val newsReportsSelectQuery = "SELECT * FROM $TABLE_NEWS_REPORT"
+        val newsReports = mutableListOf<NewsReport>()
+
+        val cursor = readableDatabase.rawQuery(newsReportsSelectQuery, null)
+        if (cursor.moveToFirst()) {
+            do {
+                val title =
+                    cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NEWS_REPORT_TITLE))
+                val description =
+                    cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NEWS_REPORT_DESCRIPTION))
+                newsReports.add(NewsReport(title, description))
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        return newsReports
+    }
+
+    fun getWeatherByTemperature(temperature: Double): List<WeatherLog> {
         val weatherLogsSelectQuery =
             "SELECT * " +
                     "FROM $TABLE_WEATHER " +
@@ -76,7 +108,27 @@ class SqliteOpenHelperDbManager @Inject constructor(
         return weatherLogs
     }
 
-    fun add(weatherLogs: List<WeatherLog>) {
+    fun getNewsByTitle(title: String): List<NewsReport> {
+        val newsReportsSelectQuery =
+            "SELECT * " +
+                    "FROM $TABLE_NEWS_REPORT " +
+                    "WHERE $COLUMN_NEWS_REPORT_TITLE = $title"
+        val newsReports = mutableListOf<NewsReport>()
+
+        val cursor = readableDatabase.rawQuery(newsReportsSelectQuery, null)
+        if (cursor.moveToFirst()) {
+            do {
+                val title = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NEWS_REPORT_TITLE))
+                val description =
+                    cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NEWS_REPORT_DESCRIPTION))
+                newsReports.add(NewsReport(title, description))
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        return newsReports
+    }
+
+    fun addWeather(weatherLogs: List<WeatherLog>) {
         val db = writableDatabase
 
         db.beginTransaction()
@@ -86,6 +138,20 @@ class SqliteOpenHelperDbManager @Inject constructor(
             values.put(COLUMN_WEATHER_HUMIDITY, it.humidity)
             values.put(COLUMN_WEATHER_PRESSURE, it.pressure)
             db.insertOrThrow(TABLE_WEATHER, null, values)
+        }
+        db.setTransactionSuccessful()
+        db.endTransaction()
+    }
+
+    fun add(newsReports: List<NewsReport>) {
+        val db = writableDatabase
+
+        db.beginTransaction()
+        newsReports.forEach {
+            val values = ContentValues()
+            values.put(COLUMN_NEWS_REPORT_TITLE, it.title)
+            values.put(COLUMN_NEWS_REPORT_DESCRIPTION, it.description)
+            db.insertOrThrow(TABLE_NEWS_REPORT, null, values)
         }
         db.setTransactionSuccessful()
         db.endTransaction()
@@ -110,13 +176,37 @@ class SqliteOpenHelperDbManager @Inject constructor(
         )
     }
 
+    /**
+     * @returns Int - number of affected rows
+     */
+    fun updateByTitle(title: String, newsReport: NewsReport): Int {
+        val contentValues =
+            ContentValues().also {
+                it.put(COLUMN_NEWS_REPORT_TITLE, newsReport.title)
+                it.put(COLUMN_NEWS_REPORT_DESCRIPTION, newsReport.description)
+            }
+
+        return writableDatabase.update(
+            TABLE_NEWS_REPORT,
+            contentValues,
+            "$COLUMN_NEWS_REPORT_TITLE = ?",
+            arrayOf(title)
+        )
+    }
+
     private companion object {
-        const val DATABASE_NAME = "weatherLogSqliteHelperDatabase"
+        const val DATABASE_NAME = "sqliteHelperDatabase"
         const val TABLE_WEATHER = "weather_logs"
         const val COLUMN_WEATHER_ID = "id"
         const val COLUMN_WEATHER_TEMP = "temperature"
         const val COLUMN_WEATHER_HUMIDITY = "humidity"
         const val COLUMN_WEATHER_PRESSURE = "pressure"
+
+        const val TABLE_NEWS_REPORT = "news_report"
+        const val COLUMN_NEWS_REPORT_ID = "id"
+        const val COLUMN_NEWS_REPORT_TITLE = "title"
+        const val COLUMN_NEWS_REPORT_DESCRIPTION = "description"
+
         const val DATABASE_VERSION = 1
     }
 }
