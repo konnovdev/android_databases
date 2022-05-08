@@ -1,68 +1,68 @@
 package dev.konnov.feature.sqliteopenhelper.data
 
+import dev.konnov.common.dataset.newsreports.NewsReport
 import dev.konnov.common.dbtestingtools.DataSetType
-import dev.konnov.common.dataset.weatherlogs.WeatherLog
 import dev.konnov.common.dbtestingtools.DbTestRepository
 import dev.konnov.common.dbtestingtools.TestResult
 import dev.konnov.common.dbtestingtools.TestType
 import javax.inject.Inject
 
-class WeatherRepository @Inject constructor(
+class NewsReportRepository @Inject constructor(
     private val sqliteOpenManager: SqliteOpenHelperDbManager
-): DbTestRepository<WeatherLog, Double> {
+): DbTestRepository<NewsReport, String> {
 
-    override fun insert(items: List<WeatherLog>): TestResult {
-        sqliteOpenManager.deleteAllWeatherData()
+    override fun insert(items: List<NewsReport>): TestResult {
+        sqliteOpenManager.deleteAllNewsReportsData()
 
         val startTimestamp = System.currentTimeMillis()
-        sqliteOpenManager.addWeather(items)
+        sqliteOpenManager.addNewsReports(items)
         val endTimestamp = System.currentTimeMillis()
         val timeTaken = endTimestamp - startTimestamp
 
-        return TestResult(timeTaken, DataSetType.REAL, items.size, TestType.INSERT)
+        return TestResult(timeTaken, DataSetType.STRING, items.size, TestType.INSERT)
     }
 
     override fun loadEverything(): TestResult {
         val startTimestamp = System.currentTimeMillis()
 
-        val retrievedData = sqliteOpenManager.getAllWeatherData()
+        val retrievedData = sqliteOpenManager.getAllNewsData()
 
         val endTimestamp = System.currentTimeMillis()
         val timeTaken = endTimestamp - startTimestamp
 
-        return TestResult(timeTaken, DataSetType.REAL, retrievedData.size, TestType.LOAD_ALL)
+        return TestResult(timeTaken, DataSetType.STRING, retrievedData.size, TestType.LOAD_ALL)
     }
 
-    override fun update(temperature: Double, item: WeatherLog): TestResult {
+    override fun loadByParameter(title: String): TestResult {
         val startTimestamp = System.currentTimeMillis()
 
-        val affectedRows = sqliteOpenManager.updateByTemperature(temperature, item)
+        val result = sqliteOpenManager.getNewsByTitle(title)
 
         val endTimestamp = System.currentTimeMillis()
         val timeTaken = endTimestamp - startTimestamp
 
-        return TestResult(timeTaken, DataSetType.REAL, affectedRows, TestType.UPDATE)
+        return TestResult(timeTaken, DataSetType.STRING, result.size, TestType.LOAD_BY_PARAM)
     }
 
-    override fun loadByParameter(temperature: Double): TestResult {
+    override fun update(title: String, item: NewsReport): TestResult {
         val startTimestamp = System.currentTimeMillis()
 
-        val result = sqliteOpenManager.getWeatherByTemperature(temperature)
+        val affectedRows = sqliteOpenManager.updateByTitle(title, item)
 
         val endTimestamp = System.currentTimeMillis()
         val timeTaken = endTimestamp - startTimestamp
 
-        return TestResult(timeTaken, DataSetType.REAL, result.size, TestType.LOAD_BY_PARAM)
+        return TestResult(timeTaken, DataSetType.STRING, affectedRows, TestType.UPDATE)
     }
 
-    override fun delete(temperature: Double): TestResult {
+    override fun delete(title: String): TestResult {
         val startTimestamp = System.currentTimeMillis()
 
-        val result = sqliteOpenManager.getWeatherByTemperature(temperature)
+        val affectedRows = sqliteOpenManager.deleteNewsByTitle(title)
 
         val endTimestamp = System.currentTimeMillis()
         val timeTaken = endTimestamp - startTimestamp
 
-        return TestResult(timeTaken, DataSetType.REAL, result.size, TestType.DELETE)
+        return TestResult(timeTaken, DataSetType.STRING, affectedRows, TestType.DELETE)
     }
 }

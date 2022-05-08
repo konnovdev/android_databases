@@ -25,7 +25,7 @@ class SqliteOpenHelperDbManager @Inject constructor(
                 "(" +
                 COLUMN_NEWS_REPORT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_NEWS_REPORT_TITLE + " TEXT, " +
-                COLUMN_NEWS_REPORT_DESCRIPTION + " TEXT, " +
+                COLUMN_NEWS_REPORT_DESCRIPTION + " TEXT " +
                 ")";
 
         db?.execSQL(createWeatherLogsTableQuery)
@@ -47,6 +47,26 @@ class SqliteOpenHelperDbManager @Inject constructor(
     fun deleteAllNewsReportsData() {
         writableDatabase.execSQL("DELETE FROM $TABLE_NEWS_REPORT")
     }
+
+    /**
+     * @returns Int - number of affected rows
+     */
+    fun deleteWeatherByTemperature(temperature: Double): Int =
+        writableDatabase.delete(
+            TABLE_WEATHER,
+            "$COLUMN_WEATHER_TEMP = ?",
+            arrayOf(temperature.toString())
+        )
+
+    /**
+     * @returns Int - number of affected rows
+     */
+    fun deleteNewsByTitle(title: String): Int =
+        writableDatabase.delete(
+            TABLE_NEWS_REPORT,
+            "$COLUMN_NEWS_REPORT_TITLE = ?",
+            arrayOf(title)
+        )
 
     fun getAllWeatherData(): List<WeatherLog> {
         val weatherLogsSelectQuery = "SELECT * FROM $TABLE_WEATHER"
@@ -112,7 +132,7 @@ class SqliteOpenHelperDbManager @Inject constructor(
         val newsReportsSelectQuery =
             "SELECT * " +
                     "FROM $TABLE_NEWS_REPORT " +
-                    "WHERE $COLUMN_NEWS_REPORT_TITLE = $title"
+                    "WHERE $COLUMN_NEWS_REPORT_TITLE = '$title'"
         val newsReports = mutableListOf<NewsReport>()
 
         val cursor = readableDatabase.rawQuery(newsReportsSelectQuery, null)
@@ -143,7 +163,7 @@ class SqliteOpenHelperDbManager @Inject constructor(
         db.endTransaction()
     }
 
-    fun add(newsReports: List<NewsReport>) {
+    fun addNewsReports(newsReports: List<NewsReport>) {
         val db = writableDatabase
 
         db.beginTransaction()

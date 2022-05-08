@@ -9,4 +9,6 @@ interface DbTestRepository<Entity, Parameter> {
     fun loadByParameter(param: Parameter): TestResult
 
     fun update(param: Parameter, item: Entity): TestResult
+
+    fun delete(param: Parameter): TestResult
 }
