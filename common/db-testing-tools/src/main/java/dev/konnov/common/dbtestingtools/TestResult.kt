@@ -24,3 +24,11 @@ enum class OperationType {
     UPDATE,
     DELETE
 }
+
+val fakeTestResults = listOf(
+    TestResult(13232399, DataSetType.STRING, 10000, OperationType.INSERT),
+    TestResult(9245563, DataSetType.STRING, 10000, OperationType.LOAD_ALL),
+    TestResult(6534554, DataSetType.STRING, 10000, OperationType.LOAD_BY_PARAM),
+    TestResult(231233, DataSetType.STRING, 10000, OperationType.UPDATE),
+    TestResult(42122, DataSetType.STRING, 10000, OperationType.DELETE),
+)

@@ -12,13 +12,16 @@ import dev.konnov.common.dataset.weatherlogs.WeatherLog
 import dev.konnov.common.dataset.weatherlogs.WeatherLogDataGenerator
 import dev.konnov.common.dbtestingtools.SIZE_100k
 import dev.konnov.common.dbtestingtools.SIZE_10k
+import dev.konnov.common.dbtestingtools.TestResult
+import dev.konnov.common.dbtestingtools.group
 import dev.konnov.feature.sqliteopenhelper.data.NewsReportRepository
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.lang.StringBuilder
+import dev.konnov.feature.sqliteopenhelper.presentation.SqliteOpenHelperState.InProgress
+import dev.konnov.feature.sqliteopenhelper.presentation.SqliteOpenHelperState.Content
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,32 +30,26 @@ class SqliteOpenHelperViewModel @Inject constructor(
     private val newsReportRepository: NewsReportRepository
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow<SqliteOpenHelperState>(SqliteOpenHelperState.InProgress)
+    private val _state = MutableStateFlow<SqliteOpenHelperState>(InProgress)
     val state: StateFlow<SqliteOpenHelperState> = _state
 
     fun testDbSpeed() {
         viewModelScope.launch {
             // TODO create an entity class here that will be returned on UI and displayed
-            val dbTestSpeedResultOutput = StringBuilder("SQLiteOpenHelper test for WeatherLog entity.\n")
+            val results = mutableListOf<TestResult>()
             withContext(IO) {
                 for (i in 0..TEST_ITERATIONS) {
-                    dbTestSpeedResultOutput.append(testOnWeather(WeatherLogDataGenerator.getEntities(SIZE_10k)))
-                    dbTestSpeedResultOutput.append(testOnNews(NewsReportDataGenerator.getEntities(SIZE_10k)))
-                }
-
-                for (i in 0..TEST_ITERATIONS) {
-                    dbTestSpeedResultOutput.append(testOnWeather(WeatherLogDataGenerator.getEntities(SIZE_100k)))
-                    dbTestSpeedResultOutput.append(testOnNews(NewsReportDataGenerator.getEntities(SIZE_100k)))
+                    results += testOnWeather(WeatherLogDataGenerator.getEntities(SIZE_10k))
+                    results += testOnNews(NewsReportDataGenerator.getEntities(SIZE_10k))
+                    results += testOnWeather(WeatherLogDataGenerator.getEntities(SIZE_100k))
+                    results += testOnNews(NewsReportDataGenerator.getEntities(SIZE_100k))
                 }
             }
-            _state.value = SqliteOpenHelperState.Content(dbTestSpeedResultOutput.toString())
+            _state.value = Content(results.group())
         }
     }
 
-    private fun testOnWeather(entries: List<WeatherLog>): String {
-        val dbTestSpeedResultOutput =
-            StringBuilder("Test for ${entries.size} entries.\n")
-
+    private fun testOnWeather(entries: List<WeatherLog>): List<TestResult> {
         val oldTemperature = Temperature(13.0)
         val newTemperature = Temperature(14.0)
         val weatherLogToInsert = WeatherLog(newTemperature, 3123.1, 33.0)
@@ -63,20 +60,16 @@ class SqliteOpenHelperViewModel @Inject constructor(
         val loadByParameterResult = weatherRepository.loadByParameter(newTemperature)
         val deleteResult = weatherRepository.delete(newTemperature)
 
-        with(dbTestSpeedResultOutput) {
-            append("insertResult: $insertResult\n")
-            append("loadEverythingResult: $loadEverythingResult\n")
-            append("updateResult: $updateResult\n")
-            append("loadByParameterResult: $loadByParameterResult\n")
-            append("deleteResult: $deleteResult\n\n")
-        }
-        return dbTestSpeedResultOutput.toString()
+        return listOf(
+            insertResult,
+            loadEverythingResult,
+            updateResult,
+            loadByParameterResult,
+            deleteResult
+        )
     }
 
-    private fun testOnNews(entries: List<NewsReport>): String {
-        val dbTestSpeedResultOutput =
-            StringBuilder("Test for ${entries.size} entries.\n")
-
+    private fun testOnNews(entries: List<NewsReport>): List<TestResult> {
         val oldTitle = Title("Morning in Las Vegas")
         val newTitle = Title("Some news title")
         val newsReportsToInsert = NewsReport(newTitle, "Some news description")
@@ -87,14 +80,13 @@ class SqliteOpenHelperViewModel @Inject constructor(
         val loadByParameterResult = newsReportRepository.loadByParameter(newTitle)
         val deleteResult = newsReportRepository.delete(newTitle)
 
-        with(dbTestSpeedResultOutput) {
-            append("insertResult: $insertResult\n")
-            append("loadEverythingResult: $loadEverythingResult\n")
-            append("updateResult: $updateResult\n")
-            append("loadByParameterResult: $loadByParameterResult\n")
-            append("deleteResult: $deleteResult\n\n")
-        }
-        return dbTestSpeedResultOutput.toString()
+        return listOf(
+            insertResult,
+            loadEverythingResult,
+            updateResult,
+            loadByParameterResult,
+            deleteResult
+        )
     }
 
     private companion object {
