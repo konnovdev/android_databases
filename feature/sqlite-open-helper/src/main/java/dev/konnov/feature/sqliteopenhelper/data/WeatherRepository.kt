@@ -10,36 +10,41 @@ class WeatherRepository @Inject constructor(
     private val testResultCalculator: TestResultCalculator
 ) : DbTestRepository<WeatherLog, Temperature> {
 
+    // TODO temporary solution to save the amount of data the repo is being tested on
+    // instead of using affected rows
+    var dataSize = DataSetSize(0)
+
     override fun insert(items: List<WeatherLog>): TestResult {
         sqliteOpenManager.deleteAllWeatherData()
 
         return testResultCalculator.getResult(DataSetType.REAL, OperationType.INSERT) {
             sqliteOpenManager.addWeather(items)
-            DataSetSize(items.size)
+            dataSize = DataSetSize(items.size)
+            dataSize
         }
     }
 
     override fun loadEverything(): TestResult =
         testResultCalculator.getResult(DataSetType.REAL, OperationType.LOAD_ALL) {
-            val retrievedData = sqliteOpenManager.getAllWeatherData()
-            DataSetSize(retrievedData.size)
+            sqliteOpenManager.getAllWeatherData()
+            dataSize
         }
 
     override fun update(param: Temperature, item: WeatherLog): TestResult =
         testResultCalculator.getResult(DataSetType.REAL, OperationType.UPDATE) {
-            val affectedRows = sqliteOpenManager.updateByTemperature(param.temperature, item)
-            DataSetSize(affectedRows)
+            sqliteOpenManager.updateByTemperature(param.temperature, item)
+            dataSize
         }
 
     override fun loadByParameter(param: Temperature): TestResult =
         testResultCalculator.getResult(DataSetType.REAL, OperationType.LOAD_BY_PARAM) {
-            val result = sqliteOpenManager.getWeatherByTemperature(param.temperature)
-            DataSetSize(result.size)
+            sqliteOpenManager.getWeatherByTemperature(param.temperature)
+            dataSize
         }
 
     override fun delete(param: Temperature): TestResult =
         testResultCalculator.getResult(DataSetType.REAL, OperationType.DELETE) {
-            val result = sqliteOpenManager.getWeatherByTemperature(param.temperature)
-            DataSetSize(result.size)
+            sqliteOpenManager.getWeatherByTemperature(param.temperature)
+            dataSize
         }
 }
