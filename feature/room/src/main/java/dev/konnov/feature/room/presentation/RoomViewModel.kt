@@ -37,13 +37,11 @@ class RoomViewModel @Inject constructor(
         viewModelScope.launch {
 // TODO create an entity class here that will be returned on UI and displayed
             val results = mutableListOf<TestResult>()
-            withContext(IO) {
-                for (i in 0..TEST_ITERATIONS) {
-                    results += testOnWeather(WeatherLogDataGenerator.getEntities(SIZE_10k))
-                    results += testOnNews(NewsReportDataGenerator.getEntities(SIZE_10k))
-                    results += testOnWeather(WeatherLogDataGenerator.getEntities(SIZE_100k))
-                    results += testOnNews(NewsReportDataGenerator.getEntities(SIZE_100k))
-                }
+            for (i in 0..TEST_ITERATIONS) {
+                results += testOnWeather(WeatherLogDataGenerator.getEntities(SIZE_10k))
+                results += testOnNews(NewsReportDataGenerator.getEntities(SIZE_10k))
+                results += testOnWeather(WeatherLogDataGenerator.getEntities(SIZE_100k))
+                results += testOnNews(NewsReportDataGenerator.getEntities(SIZE_100k))
             }
             _state.value = Content(results.group())
         }
