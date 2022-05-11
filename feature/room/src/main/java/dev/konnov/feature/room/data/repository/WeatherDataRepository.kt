@@ -1,8 +1,9 @@
-package dev.konnov.feature.room.data
+package dev.konnov.feature.room.data.repository
 
 import dev.konnov.common.dataset.weatherlogs.Temperature
 import dev.konnov.common.dataset.weatherlogs.WeatherLog
 import dev.konnov.common.dbtestingtools.*
+import dev.konnov.feature.room.data.converter.WeatherDtoConverter
 import dev.konnov.feature.room.data.database.WeatherLogDao
 import javax.inject.Inject
 

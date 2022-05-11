@@ -1,4 +1,4 @@
-package dev.konnov.feature.room.data
+package dev.konnov.feature.room.data.converter
 
 import dev.konnov.common.dataset.weatherlogs.Temperature
 import dev.konnov.common.dataset.weatherlogs.WeatherLog

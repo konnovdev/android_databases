@@ -7,14 +7,14 @@ import dev.konnov.common.dataset.newsreports.NewsReport
 import dev.konnov.common.dataset.newsreports.NewsReportDataGenerator
 import dev.konnov.common.dataset.newsreports.Title
 import dev.konnov.common.dataset.weatherlogs.Temperature
-import dev.konnov.feature.sqliteopenhelper.data.WeatherRepository
+import dev.konnov.feature.sqliteopenhelper.data.repository.WeatherRepository
 import dev.konnov.common.dataset.weatherlogs.WeatherLog
 import dev.konnov.common.dataset.weatherlogs.WeatherLogDataGenerator
 import dev.konnov.common.dbtestingtools.SIZE_100k
 import dev.konnov.common.dbtestingtools.SIZE_10k
 import dev.konnov.common.dbtestingtools.TestResult
 import dev.konnov.common.dbtestingtools.group
-import dev.konnov.feature.sqliteopenhelper.data.NewsReportRepository
+import dev.konnov.feature.sqliteopenhelper.data.repository.NewsReportRepository
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

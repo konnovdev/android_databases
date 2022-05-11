@@ -1,4 +1,4 @@
-package dev.konnov.feature.room.data
+package dev.konnov.feature.room.data.converter
 
 import dev.konnov.common.dataset.newsreports.NewsReport
 import dev.konnov.common.dataset.newsreports.Title

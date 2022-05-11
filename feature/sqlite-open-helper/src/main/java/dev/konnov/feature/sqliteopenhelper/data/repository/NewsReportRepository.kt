@@ -1,8 +1,9 @@
-package dev.konnov.feature.sqliteopenhelper.data
+package dev.konnov.feature.sqliteopenhelper.data.repository
 
 import dev.konnov.common.dataset.newsreports.NewsReport
 import dev.konnov.common.dataset.newsreports.Title
 import dev.konnov.common.dbtestingtools.*
+import dev.konnov.feature.sqliteopenhelper.data.database.SqliteOpenHelperDbManager
 import javax.inject.Inject
 
 class NewsReportRepository @Inject constructor(

@@ -1,8 +1,9 @@
-package dev.konnov.feature.room.data
+package dev.konnov.feature.room.data.repository
 
 import dev.konnov.common.dataset.newsreports.NewsReport
 import dev.konnov.common.dataset.newsreports.Title
 import dev.konnov.common.dbtestingtools.*
+import dev.konnov.feature.room.data.converter.NewsReportDtoConverter
 import dev.konnov.feature.room.data.database.NewsReportDao
 import javax.inject.Inject
 

@@ -13,8 +13,8 @@ import dev.konnov.common.dataset.newsreports.Title
 import dev.konnov.common.dataset.weatherlogs.Temperature
 import dev.konnov.common.dataset.weatherlogs.WeatherLog
 import dev.konnov.common.dbtestingtools.group
-import dev.konnov.feature.room.data.NewsReportRepository
-import dev.konnov.feature.room.data.WeatherDataRepository
+import dev.konnov.feature.room.data.repository.NewsReportRepository
+import dev.konnov.feature.room.data.repository.WeatherDataRepository
 import dev.konnov.feature.room.presentation.RoomViewState.InProgress
 import dev.konnov.feature.room.presentation.RoomViewState.Content
 import kotlinx.coroutines.Dispatchers.IO

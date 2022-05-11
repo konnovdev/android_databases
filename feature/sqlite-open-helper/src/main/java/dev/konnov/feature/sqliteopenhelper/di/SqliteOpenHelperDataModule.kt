@@ -6,7 +6,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import dev.konnov.feature.sqliteopenhelper.data.SqliteOpenHelperDbManager
+import dev.konnov.feature.sqliteopenhelper.data.database.SqliteOpenHelperDbManager
 import javax.inject.Singleton
 
 @Module

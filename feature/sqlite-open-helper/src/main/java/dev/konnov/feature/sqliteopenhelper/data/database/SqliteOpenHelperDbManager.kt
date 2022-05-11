@@ -1,4 +1,4 @@
-package dev.konnov.feature.sqliteopenhelper.data
+package dev.konnov.feature.sqliteopenhelper.data.database
 
 import android.content.ContentValues
 import android.content.Context

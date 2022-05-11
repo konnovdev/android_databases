@@ -1,8 +1,9 @@
-package dev.konnov.feature.sqliteopenhelper.data
+package dev.konnov.feature.sqliteopenhelper.data.repository
 
 import dev.konnov.common.dataset.weatherlogs.Temperature
 import dev.konnov.common.dataset.weatherlogs.WeatherLog
 import dev.konnov.common.dbtestingtools.*
+import dev.konnov.feature.sqliteopenhelper.data.database.SqliteOpenHelperDbManager
 import javax.inject.Inject
 
 class WeatherRepository @Inject constructor(
