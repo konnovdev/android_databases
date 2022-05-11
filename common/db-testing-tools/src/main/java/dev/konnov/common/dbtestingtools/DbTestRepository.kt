@@ -2,13 +2,13 @@ package dev.konnov.common.dbtestingtools
 
 interface DbTestRepository<Entity, Parameter> {
 
-    fun insert(items: List<Entity>): TestResult
+    suspend fun insert(items: List<Entity>): TestResult
 
-    fun loadEverything(): TestResult
+    suspend fun loadEverything(): TestResult
 
-    fun loadByParameter(param: Parameter): TestResult
+    suspend fun loadByParameter(param: Parameter): TestResult
 
-    fun update(param: Parameter, item: Entity): TestResult
+    suspend fun update(param: Parameter, item: Entity): TestResult
 
-    fun delete(param: Parameter): TestResult
+    suspend fun delete(param: Parameter): TestResult
 }

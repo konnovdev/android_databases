@@ -49,7 +49,7 @@ class SqliteOpenHelperViewModel @Inject constructor(
         }
     }
 
-    private fun testOnWeather(entries: List<WeatherLog>): List<TestResult> {
+    private suspend fun testOnWeather(entries: List<WeatherLog>): List<TestResult> {
         val oldTemperature = Temperature(13.0)
         val newTemperature = Temperature(14.0)
         val weatherLogToInsert = WeatherLog(newTemperature, 3123.1, 33.0)
@@ -69,7 +69,7 @@ class SqliteOpenHelperViewModel @Inject constructor(
         )
     }
 
-    private fun testOnNews(entries: List<NewsReport>): List<TestResult> {
+    private suspend fun testOnNews(entries: List<NewsReport>): List<TestResult> {
         val oldTitle = Title("Morning in Las Vegas")
         val newTitle = Title("Some news title")
         val newsReportsToInsert = NewsReport(newTitle, "Some news description")

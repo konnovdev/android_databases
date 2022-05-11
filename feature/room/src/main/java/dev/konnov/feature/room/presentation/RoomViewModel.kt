@@ -2,31 +2,35 @@ package dev.konnov.feature.room.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.room.RoomDatabase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.konnov.feature.room.testik.AppDatabase
-import dev.konnov.feature.room.testik.User
+import dev.konnov.common.dataset.weatherlogs.WeatherLogDataGenerator
+import dev.konnov.common.dbtestingtools.SIZE_100k
+import dev.konnov.feature.room.data.WeatherDataRepository
+import dev.konnov.feature.room.presentation.RoomViewState.InProgress
+import dev.konnov.feature.room.presentation.RoomViewState.Content
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
-class RoomViewModel @Inject constructor() : ViewModel() {
+class RoomViewModel @Inject constructor(
+    private val weatherDataRepository: WeatherDataRepository
+) : ViewModel() {
+
+    private val _state = MutableStateFlow<RoomViewState>(InProgress)
+    val state: StateFlow<RoomViewState> = _state
 
     fun testDbSpeed() {
         testRoomWorks()
     }
 
-    @Inject
-    lateinit var db: AppDatabase
     // TODO delete this, it's just for test
     private fun testRoomWorks() {
         viewModelScope.launch {
-            val userDao = db.userDao()
-            userDao.insertAll(User(UUID.randomUUID().toString().hashCode(), "alex", "snowden"), User(UUID.randomUUID().toString().hashCode(), "john", "albert"))
-            val users: List<User> = userDao.getAll()
-            println("room data: $users")
+            val testResult = weatherDataRepository.insert(WeatherLogDataGenerator.getEntities(SIZE_100k))
+            _state.value = Content(listOf(testResult))
         }
-
     }
 }

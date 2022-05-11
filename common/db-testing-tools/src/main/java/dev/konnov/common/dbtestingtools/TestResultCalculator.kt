@@ -4,10 +4,10 @@ import javax.inject.Inject
 
 class TestResultCalculator @Inject constructor() {
 
-    fun getResult(
+    suspend fun getResult(
         datasetType: DataSetType,
         operationType: OperationType,
-        operation: () -> DataSetSize
+        operation: suspend () -> DataSetSize
     ): TestResult {
         val startTimestamp = System.currentTimeMillis()
 

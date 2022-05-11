@@ -12,9 +12,9 @@ class WeatherRepository @Inject constructor(
 
     // TODO temporary solution to save the amount of data the repo is being tested on
     // instead of using affected rows
-    var dataSize = DataSetSize(0)
+    private var dataSize = DataSetSize(0)
 
-    override fun insert(items: List<WeatherLog>): TestResult {
+    override suspend fun insert(items: List<WeatherLog>): TestResult {
         sqliteOpenManager.deleteAllWeatherData()
 
         return testResultCalculator.getResult(DataSetType.REAL, OperationType.INSERT) {
@@ -24,25 +24,25 @@ class WeatherRepository @Inject constructor(
         }
     }
 
-    override fun loadEverything(): TestResult =
+    override suspend fun loadEverything(): TestResult =
         testResultCalculator.getResult(DataSetType.REAL, OperationType.LOAD_ALL) {
             sqliteOpenManager.getAllWeatherData()
             dataSize
         }
 
-    override fun update(param: Temperature, item: WeatherLog): TestResult =
+    override suspend fun update(param: Temperature, item: WeatherLog): TestResult =
         testResultCalculator.getResult(DataSetType.REAL, OperationType.UPDATE) {
             sqliteOpenManager.updateByTemperature(param.temperature, item)
             dataSize
         }
 
-    override fun loadByParameter(param: Temperature): TestResult =
+    override suspend fun loadByParameter(param: Temperature): TestResult =
         testResultCalculator.getResult(DataSetType.REAL, OperationType.LOAD_BY_PARAM) {
             sqliteOpenManager.getWeatherByTemperature(param.temperature)
             dataSize
         }
 
-    override fun delete(param: Temperature): TestResult =
+    override suspend fun delete(param: Temperature): TestResult =
         testResultCalculator.getResult(DataSetType.REAL, OperationType.DELETE) {
             sqliteOpenManager.deleteWeatherByTemperature(param.temperature)
             dataSize

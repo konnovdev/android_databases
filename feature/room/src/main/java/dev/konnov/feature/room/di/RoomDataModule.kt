@@ -7,7 +7,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import dev.konnov.feature.room.testik.AppDatabase
+import dev.konnov.feature.room.data.database.RoomAppDatabase
+import dev.konnov.feature.room.data.database.WeatherLogDao
 import javax.inject.Singleton
 
 @Module
@@ -18,8 +19,14 @@ class RoomDataModule {
     @Provides
     fun provideAppDb(
         @ApplicationContext appContext: Context
-    ): AppDatabase = Room.databaseBuilder(
+    ): RoomAppDatabase = Room.databaseBuilder(
         appContext,
-        AppDatabase::class.java, "database-name"
+        RoomAppDatabase::class.java, "room-db"
     ).build()
+
+    @Singleton
+    @Provides
+    fun provideWeatherLogDao(
+        db: RoomAppDatabase
+    ): WeatherLogDao = db.weatherLogDao()
 }
