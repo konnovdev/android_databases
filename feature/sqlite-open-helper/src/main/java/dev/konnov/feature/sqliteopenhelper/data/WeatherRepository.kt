@@ -44,7 +44,7 @@ class WeatherRepository @Inject constructor(
 
     override fun delete(param: Temperature): TestResult =
         testResultCalculator.getResult(DataSetType.REAL, OperationType.DELETE) {
-            sqliteOpenManager.getWeatherByTemperature(param.temperature)
+            sqliteOpenManager.deleteWeatherByTemperature(param.temperature)
             dataSize
         }
 }
