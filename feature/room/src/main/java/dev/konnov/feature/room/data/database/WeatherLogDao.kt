@@ -24,4 +24,7 @@ interface WeatherLogDao {
 
     @Query("DELETE FROM weatherLog")
     suspend fun deleteAllWeatherData()
+
+    @Query("DELETE FROM weatherLog WHERE temperature = :temperature")
+    suspend fun deleteByTemperature(temperature: Double)
 }

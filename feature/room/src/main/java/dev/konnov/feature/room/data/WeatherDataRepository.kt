@@ -18,7 +18,7 @@ class WeatherDataRepository @Inject constructor(
 
     override suspend fun insert(items: List<WeatherLog>): TestResult {
         weatherLogDao.deleteAllWeatherData()
-        val itemDtos = items.map { weatherDtoConverter.convert(it) }
+        val itemDtos = items.map(weatherDtoConverter::convert)
 
         return testResultCalculator.getResult(DataSetType.REAL, OperationType.INSERT) {
             weatherLogDao.addWeather(itemDtos)
@@ -53,7 +53,7 @@ class WeatherDataRepository @Inject constructor(
 
     override suspend fun delete(param: Temperature): TestResult =
         testResultCalculator.getResult(DataSetType.REAL, OperationType.UPDATE) {
-            weatherLogDao.deleteAllWeatherData()
+            weatherLogDao.deleteByTemperature(param.temperature)
             dataSize
         }
 }
