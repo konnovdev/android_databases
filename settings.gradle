@@ -26,14 +26,15 @@ dependencyResolutionManagement {
 rootProject.name = "Databases Android"
 include ':app'
 
-include ':feature:shared-preferences'
-include ':feature:sqlite-open-helper'
-include ':feature:sqldelight'
-include ':feature:objectbox'
+include ':common:dataset:news-reports'
+include ':common:dataset:weatherlogs'
+include ':common:db-testing-tools'
+include ':common:ui'
+
+include ':feature:datastore'
 include ':feature:realm'
 include ':feature:room'
-
-include ':common:db-testing-tools'
-include ':common:dataset:weatherlogs'
-include ':common:dataset:news-reports'
-include ':common:ui'
+include ':feature:objectbox'
+include ':feature:shared-preferences'
+include ':feature:sqldelight'
+include ':feature:sqlite-open-helper'
