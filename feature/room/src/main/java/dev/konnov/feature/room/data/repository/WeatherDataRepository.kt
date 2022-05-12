@@ -35,8 +35,8 @@ class WeatherDataRepository @Inject constructor(
         }
 
     override suspend fun loadByParameter(param: Temperature): TestResult =
-        testResultCalculator.getResult(DataSetType.REAL, OperationType.LOAD_ALL) {
-            weatherLogDao.getAll()
+        testResultCalculator.getResult(DataSetType.REAL, OperationType.LOAD_BY_PARAM) {
+            weatherLogDao.getWeatherByTemperature(param.temperature)
             dataSize
         }
 
@@ -53,7 +53,7 @@ class WeatherDataRepository @Inject constructor(
 
 
     override suspend fun delete(param: Temperature): TestResult =
-        testResultCalculator.getResult(DataSetType.REAL, OperationType.UPDATE) {
+        testResultCalculator.getResult(DataSetType.REAL, OperationType.DELETE) {
             weatherLogDao.deleteByTemperature(param.temperature)
             dataSize
         }
