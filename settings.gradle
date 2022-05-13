@@ -30,6 +30,7 @@ include ':common:dataset:news-reports'
 include ':common:dataset:weatherlogs'
 include ':common:db-testing-tools'
 include ':common:ui'
+include ':common:mvvm'
 
 include ':feature:datastore'
 include ':feature:realm'

@@ -10,13 +10,14 @@ import dev.konnov.common.dataset.weatherlogs.Temperature
 import dev.konnov.common.dataset.weatherlogs.WeatherLog
 import dev.konnov.common.dataset.weatherlogs.WeatherLogDataGenerator
 import dev.konnov.common.dbtestingtools.*
+import dev.konnov.common.mvvm.TestDBViewState
+import dev.konnov.common.mvvm.TestDBViewState.Content
+import dev.konnov.common.mvvm.TestDBViewState.InProgress
 import dev.konnov.feature.realm.data.repository.NewsReportRepository
 import dev.konnov.feature.realm.data.repository.WeatherDataRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import dev.konnov.feature.realm.presentation.RealmViewState.Content
-import dev.konnov.feature.realm.presentation.RealmViewState.InProgress
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,8 +26,8 @@ class RealmViewModel @Inject constructor(
     private val weatherDataRepository: WeatherDataRepository,
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow<RealmViewState>(InProgress)
-    val state: StateFlow<RealmViewState> = _state
+    private val _state = MutableStateFlow<TestDBViewState>(InProgress)
+    val state: StateFlow<TestDBViewState> = _state
 
     fun testDbSpeed() {
         viewModelScope.launch {

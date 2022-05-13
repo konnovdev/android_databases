@@ -14,14 +14,15 @@ import dev.konnov.common.dbtestingtools.SIZE_100k
 import dev.konnov.common.dbtestingtools.SIZE_10k
 import dev.konnov.common.dbtestingtools.TestResult
 import dev.konnov.common.dbtestingtools.group
+import dev.konnov.common.mvvm.TestDBViewState
+import dev.konnov.common.mvvm.TestDBViewState.InProgress
+import dev.konnov.common.mvvm.TestDBViewState.Content
 import dev.konnov.feature.sqliteopenhelper.data.repository.NewsReportRepository
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import dev.konnov.feature.sqliteopenhelper.presentation.SqliteOpenHelperState.InProgress
-import dev.konnov.feature.sqliteopenhelper.presentation.SqliteOpenHelperState.Content
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,8 +31,8 @@ class SqliteOpenHelperViewModel @Inject constructor(
     private val newsReportRepository: NewsReportRepository
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow<SqliteOpenHelperState>(InProgress)
-    val state: StateFlow<SqliteOpenHelperState> = _state
+    private val _state = MutableStateFlow<TestDBViewState>(InProgress)
+    val state: StateFlow<TestDBViewState> = _state
 
     fun testDbSpeed() {
         viewModelScope.launch {

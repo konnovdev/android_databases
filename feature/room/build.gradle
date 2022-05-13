@@ -49,4 +49,5 @@ dependencies {
     implementation project(path: ':common:dataset:weatherlogs')
     implementation project(path: ':common:dataset:news-reports')
     implementation project(path: ':common:ui')
+    implementation project(path: ':common:mvvm')
 }

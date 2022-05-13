@@ -7,8 +7,8 @@ import androidx.compose.runtime.getValue
 import dev.konnov.common.ui.Progress
 import dev.konnov.common.ui.TestResultScreen
 import dev.konnov.feature.room.presentation.RoomViewModel
-import  dev.konnov.feature.room.presentation.RoomViewState.Content
-import  dev.konnov.feature.room.presentation.RoomViewState.InProgress
+import dev.konnov.common.mvvm.TestDBViewState.Content
+import dev.konnov.common.mvvm.TestDBViewState.InProgress
 
 @Composable
 fun RoomScreen(

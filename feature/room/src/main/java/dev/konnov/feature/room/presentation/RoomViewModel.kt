@@ -13,10 +13,11 @@ import dev.konnov.common.dataset.newsreports.Title
 import dev.konnov.common.dataset.weatherlogs.Temperature
 import dev.konnov.common.dataset.weatherlogs.WeatherLog
 import dev.konnov.common.dbtestingtools.group
+import dev.konnov.common.mvvm.TestDBViewState
+import dev.konnov.common.mvvm.TestDBViewState.Content
+import dev.konnov.common.mvvm.TestDBViewState.InProgress
 import dev.konnov.feature.room.data.repository.NewsReportRepository
 import dev.konnov.feature.room.data.repository.WeatherDataRepository
-import dev.konnov.feature.room.presentation.RoomViewState.InProgress
-import dev.konnov.feature.room.presentation.RoomViewState.Content
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -30,8 +31,8 @@ class RoomViewModel @Inject constructor(
     private val newsReportRepository: NewsReportRepository,
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow<RoomViewState>(InProgress)
-    val state: StateFlow<RoomViewState> = _state
+    private val _state = MutableStateFlow<TestDBViewState>(InProgress)
+    val state: StateFlow<TestDBViewState> = _state
 
     fun testDbSpeed() {
         viewModelScope.launch {

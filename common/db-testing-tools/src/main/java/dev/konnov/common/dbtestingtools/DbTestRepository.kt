@@ -1,5 +1,9 @@
 package dev.konnov.common.dbtestingtools
 
+interface TestingRepository {
+
+}
+
 interface DbTestRepository<Entity, Parameter> {
 
     suspend fun insert(items: List<Entity>): TestResult
