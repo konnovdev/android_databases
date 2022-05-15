@@ -10,19 +10,24 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import dev.konnov.common.dbtestingtools.TestResult
-import dev.konnov.common.dbtestingtools.fakeTestResults
+import dev.konnov.common.dbtestingtools.domain.entity.TestResult
+import dev.konnov.common.dbtestingtools.domain.entity.fakeTestResults
+import dev.konnov.common.mvvm.TestDbViewModel
+import dev.konnov.common.mvvm.TestDBViewState
 
 
 @Preview(showBackground = true, widthDp = 320, heightDp = 700)
 @Composable
 private fun PreviewTestResultScreen() {
-    TestResultScreen(fakeTestResults)
+    TestResultListScreen(fakeTestResults)
 }
 
 @Preview(showBackground = true, widthDp = 320, heightDp = 700)
@@ -39,7 +44,25 @@ fun Progress() {
 }
 
 @Composable
-fun TestResultScreen(testResults: List<TestResult>) {
+fun ResultScreen(
+    viewModel: TestDbViewModel
+) {
+    LaunchedEffect(key1 = "key") {
+        viewModel.testDbSpeed()
+    }
+    val state by viewModel.state.collectAsState()
+    when (val screenState = state) {
+        TestDBViewState.InProgress -> {
+            Progress()
+        }
+        is TestDBViewState.Content -> {
+            TestResultListScreen(screenState.results)
+        }
+    }
+}
+
+@Composable
+fun TestResultListScreen(testResults: List<TestResult>) {
     Column(Modifier.verticalScroll(rememberScrollState()).padding(8.dp)) {
         Text("Test results: ")
         testResults.forEach {

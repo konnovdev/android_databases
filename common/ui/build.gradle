@@ -35,4 +35,5 @@ dependencies {
     implementation libs.bundles.composeDependencies
 
     implementation project(path: ':common:db-testing-tools')
+    implementation project(path: ':common:mvvm')
 }

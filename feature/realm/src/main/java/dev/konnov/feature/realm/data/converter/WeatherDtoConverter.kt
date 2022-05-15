@@ -1,7 +1,6 @@
 package dev.konnov.feature.realm.data.converter
 
-import dev.konnov.common.dataset.weatherlogs.Temperature
-import dev.konnov.common.dataset.weatherlogs.WeatherLog
+import dev.konnov.common.dataset.weatherlogs.data.model.WeatherLog
 import dev.konnov.feature.realm.data.model.WeatherLogDto
 import javax.inject.Inject
 
@@ -9,7 +8,7 @@ class WeatherDtoConverter @Inject constructor() {
 
     fun convert(entity: WeatherLog): WeatherLogDto =
         WeatherLogDto().apply {
-            temperature = entity.temperature.temperature
+            temperature = entity.temperature
             humidity = entity.humidity
             pressure = entity.pressure
         }
@@ -17,7 +16,7 @@ class WeatherDtoConverter @Inject constructor() {
 
     fun convert(dto: WeatherLogDto): WeatherLog =
         WeatherLog(
-            temperature = Temperature(dto.temperature),
+            temperature = dto.temperature,
             humidity = dto.humidity,
             pressure = dto.pressure
         )

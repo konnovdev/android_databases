@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'dagger.hilt.android.plugin'
+    id 'kotlin-kapt'
 }
 
 apply(from: "$rootDir/application.gradle")
@@ -29,6 +31,11 @@ android {
 }
 
 dependencies {
+    implementation libs.hiltNavigationCompose
+    implementation libs.daggerHiltAndroid
+    kapt(libs.hiltAndroidCompiler)
+    kapt(libs.hiltCompiler)
+
     implementation libs.coreKtx
     implementation libs.lifecycleRuntimeKtx
     implementation libs.lifecycleViewmodelKtx

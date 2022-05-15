@@ -1,23 +1,26 @@
 package dev.konnov.common.dataset.newsreports
 
+import dev.konnov.common.dataset.newsreports.data.datasource.NewsReportDataSetDataSource
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
 
 internal class NewsReportDataGeneratorTest {
 
+    private val newsReportDataSetDataSource = NewsReportDataSetDataSource()
+
     @Test
     fun itemSizesAreCorrect() {
-        assertEquals(10_000, NewsReportDataGenerator.getEntities(10_000).size)
-        assertEquals(100_000, NewsReportDataGenerator.getEntities(100_000).size)
-        assertEquals(1_000_000, NewsReportDataGenerator.getEntities(1_000_000).size)
+        assertEquals(10_000, newsReportDataSetDataSource.get(10_000).size)
+        assertEquals(100_000, newsReportDataSetDataSource.get(100_000).size)
+        assertEquals(1_000_000, newsReportDataSetDataSource.get(1_000_000).size)
     }
 
     @Test
     fun hasSomeUniqueItems() {
-        val items = NewsReportDataGenerator.getEntities(1_000_000)
+        val items = newsReportDataSetDataSource.get(1_000_000)
         val titles = items.map { it.title }
         val descriptions = items.map { it.description }
-        val uniqueTitles = mutableSetOf<Title>()
+        val uniqueTitles = mutableSetOf<String>()
         uniqueTitles.addAll(titles)
         val uniqueDescriptions = mutableSetOf<String>()
         uniqueDescriptions.addAll(descriptions)
@@ -34,9 +37,33 @@ internal class NewsReportDataGeneratorTest {
 
     @Test
     fun twoGenerationsGiveTheSameItem() {
-        val firstGeneration = NewsReportDataGenerator.getEntities(1_000_000)
-        val secondGeneration = NewsReportDataGenerator.getEntities(1_000_000)
+        val firstGeneration = newsReportDataSetDataSource.get(1_000_000)
+        val secondGeneration = newsReportDataSetDataSource.get(1_000_000)
 
         assert(firstGeneration == secondGeneration)
+    }
+
+    @Test
+    fun oldParameterToUpdateExistsInTheCollection() {
+        val collection = newsReportDataSetDataSource.get(10_000)
+        val oldParamToUpdate = newsReportDataSetDataSource.oldParameterToUpdate
+
+        assert(collection.map { it.title }.contains(oldParamToUpdate))
+    }
+
+    @Test
+    fun parameterToDeleteExistsInTheCollection() {
+        val collection = newsReportDataSetDataSource.get(10_000)
+        val paramToDelete = newsReportDataSetDataSource.parameterToDelete
+
+        assert(collection.map { it.title }.contains(paramToDelete))
+    }
+
+    @Test
+    fun parameterToLoadByExistsInTheCollection() {
+        val collection = newsReportDataSetDataSource.get(10_000)
+        val paramToLoadBy = newsReportDataSetDataSource.parameterToLoadBy
+
+        assert(collection.map { it.title }.contains(paramToLoadBy))
     }
 }

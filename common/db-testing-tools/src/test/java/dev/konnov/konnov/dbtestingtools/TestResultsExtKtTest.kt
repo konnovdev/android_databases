@@ -1,6 +1,9 @@
 package dev.konnov.konnov.dbtestingtools
 
 import dev.konnov.common.dbtestingtools.*
+import dev.konnov.common.dbtestingtools.domain.entity.DataSetType
+import dev.konnov.common.dbtestingtools.domain.entity.OperationType
+import dev.konnov.common.dbtestingtools.domain.entity.TestResult
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
 

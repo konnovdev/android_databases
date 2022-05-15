@@ -1,5 +1,7 @@
 package dev.konnov.common.dbtestingtools
 
+import dev.konnov.common.dbtestingtools.domain.entity.TestResult
+
 fun List<TestResult>.group() =
     this.groupBy {
         it.dataSetType

@@ -65,5 +65,6 @@ dependencies {
     implementation project(path: ':feature:room')
     implementation project(path: ':feature:sqldelight')
     implementation project(path: ':feature:objectbox')
+    implementation project(path: ':common:mvvm')
     implementation libs.bundles.composeDependencies
 }

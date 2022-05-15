@@ -4,10 +4,8 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import dev.konnov.common.dataset.newsreports.NewsReport
-import dev.konnov.common.dataset.newsreports.Title
-import dev.konnov.common.dataset.weatherlogs.Temperature
-import dev.konnov.common.dataset.weatherlogs.WeatherLog
+import dev.konnov.common.dataset.newsreports.data.model.NewsReport
+import dev.konnov.common.dataset.weatherlogs.data.model.WeatherLog
 import javax.inject.Inject
 
 class SqliteOpenHelperDbManager @Inject constructor(
@@ -83,7 +81,7 @@ class SqliteOpenHelperDbManager @Inject constructor(
                     cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_WEATHER_HUMIDITY))
                 val pressure =
                     cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_WEATHER_PRESSURE))
-                weatherLogs.add(WeatherLog(Temperature(temperature), humidity, pressure))
+                weatherLogs.add(WeatherLog(temperature, humidity, pressure))
             } while (cursor.moveToNext())
         }
         cursor.close()
@@ -101,7 +99,7 @@ class SqliteOpenHelperDbManager @Inject constructor(
                     cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NEWS_REPORT_TITLE))
                 val description =
                     cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NEWS_REPORT_DESCRIPTION))
-                newsReports.add(NewsReport(Title(title), description))
+                newsReports.add(NewsReport(title, description))
             } while (cursor.moveToNext())
         }
         cursor.close()
@@ -123,7 +121,7 @@ class SqliteOpenHelperDbManager @Inject constructor(
                     cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_WEATHER_HUMIDITY))
                 val pressure =
                     cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_WEATHER_PRESSURE))
-                weatherLogs.add(WeatherLog(Temperature(temp), humidity, pressure))
+                weatherLogs.add(WeatherLog(temp, humidity, pressure))
             } while (cursor.moveToNext())
         }
         cursor.close()
@@ -143,7 +141,7 @@ class SqliteOpenHelperDbManager @Inject constructor(
                 val title = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NEWS_REPORT_TITLE))
                 val description =
                     cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NEWS_REPORT_DESCRIPTION))
-                newsReports.add(NewsReport(Title(title), description))
+                newsReports.add(NewsReport(title, description))
             } while (cursor.moveToNext())
         }
         cursor.close()
@@ -156,7 +154,7 @@ class SqliteOpenHelperDbManager @Inject constructor(
         db.beginTransaction()
         weatherLogs.forEach {
             val values = ContentValues()
-            values.put(COLUMN_WEATHER_TEMP, it.temperature.temperature)
+            values.put(COLUMN_WEATHER_TEMP, it.temperature)
             values.put(COLUMN_WEATHER_HUMIDITY, it.humidity)
             values.put(COLUMN_WEATHER_PRESSURE, it.pressure)
             db.insertOrThrow(TABLE_WEATHER, null, values)
@@ -171,7 +169,7 @@ class SqliteOpenHelperDbManager @Inject constructor(
         db.beginTransaction()
         newsReports.forEach {
             val values = ContentValues()
-            values.put(COLUMN_NEWS_REPORT_TITLE, it.title.title)
+            values.put(COLUMN_NEWS_REPORT_TITLE, it.title)
             values.put(COLUMN_NEWS_REPORT_DESCRIPTION, it.description)
             db.insertOrThrow(TABLE_NEWS_REPORT, null, values)
         }
@@ -185,7 +183,7 @@ class SqliteOpenHelperDbManager @Inject constructor(
     fun updateByTemperature(temperature: Double, weatherLog: WeatherLog): Int {
         val contentValues =
             ContentValues().also {
-                it.put(COLUMN_WEATHER_TEMP, weatherLog.temperature.temperature)
+                it.put(COLUMN_WEATHER_TEMP, weatherLog.temperature)
                 it.put(COLUMN_WEATHER_HUMIDITY, weatherLog.humidity)
                 it.put(COLUMN_WEATHER_PRESSURE, weatherLog.pressure)
             }
@@ -204,7 +202,7 @@ class SqliteOpenHelperDbManager @Inject constructor(
     fun updateByTitle(title: String, newsReport: NewsReport): Int {
         val contentValues =
             ContentValues().also {
-                it.put(COLUMN_NEWS_REPORT_TITLE, newsReport.title.title)
+                it.put(COLUMN_NEWS_REPORT_TITLE, newsReport.title)
                 it.put(COLUMN_NEWS_REPORT_DESCRIPTION, newsReport.description)
             }
 

@@ -7,9 +7,14 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import dev.konnov.common.dbtestingtools.data.datasource.DbDataSource
 import dev.konnov.feature.room.data.database.NewsReportDao
 import dev.konnov.feature.room.data.database.RoomAppDatabase
 import dev.konnov.feature.room.data.database.WeatherLogDao
+import dev.konnov.feature.room.data.datasource.NewsDbDataSource
+import dev.konnov.feature.room.data.datasource.WeatherDbDataSource
+import dev.konnov.feature.room.data.model.NewsReportDto
+import dev.konnov.feature.room.data.model.WeatherLogDto
 import javax.inject.Singleton
 
 @Module
@@ -36,4 +41,18 @@ class RoomDataModule {
     fun provideNewsReportDao(
         db: RoomAppDatabase
     ): NewsReportDao = db.newsReportDao()
+
+    @Singleton
+    @Provides
+    fun provideWeatherDbDataSource(
+        weatherLogDao: WeatherLogDao
+    ): DbDataSource<Double, WeatherLogDto> =
+        WeatherDbDataSource(weatherLogDao)
+
+    @Singleton
+    @Provides
+    fun provideNewsDbDataSource(
+        newsReportDao: NewsReportDao
+    ): DbDataSource<String, NewsReportDto> =
+        NewsDbDataSource(newsReportDao)
 }

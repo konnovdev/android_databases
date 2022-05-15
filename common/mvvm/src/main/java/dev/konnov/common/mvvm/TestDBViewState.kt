@@ -1,6 +1,6 @@
 package dev.konnov.common.mvvm
 
-import dev.konnov.common.dbtestingtools.TestResult
+import dev.konnov.common.dbtestingtools.domain.entity.TestResult
 
 sealed class TestDBViewState {
 

@@ -1,4 +1,4 @@
-package dev.konnov.common.dbtestingtools
+package dev.konnov.common.dbtestingtools.domain.entity
 
 data class TestResult(
     val timeInMillis: Long,
@@ -9,8 +9,7 @@ data class TestResult(
 
 enum class DataSetType {
     REAL,
-    STRING,
-    MIXED
+    STRING
 }
 
 const val SIZE_10k = 10_000

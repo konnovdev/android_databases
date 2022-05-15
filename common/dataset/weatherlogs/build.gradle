@@ -1,9 +1,37 @@
 plugins {
-    id 'kotlin'
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'dagger.hilt.android.plugin'
+    id 'kotlin-kapt'
 }
 
+apply(from: "$rootDir/application.gradle")
+
+android {
+    compileSdk application.maxApi
+
+    defaultConfig {
+        minSdk application.minApi
+        targetSdk application.maxApi
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
 
 dependencies {
+    implementation(project(":common:db-testing-tools"))
+
+    implementation libs.hiltNavigationCompose
+    implementation libs.daggerHiltAndroid
+    kapt(libs.hiltAndroidCompiler)
+    kapt(libs.hiltCompiler)
+
     testImplementation testLibs.junitCore
     testImplementation testLibs.junitJupiter
 }
