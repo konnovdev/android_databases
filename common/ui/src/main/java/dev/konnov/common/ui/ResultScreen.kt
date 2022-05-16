@@ -21,7 +21,8 @@ import androidx.compose.ui.unit.dp
 import dev.konnov.common.dbtestingtools.domain.entity.TestResult
 import dev.konnov.common.dbtestingtools.domain.entity.fakeTestResults
 import dev.konnov.common.mvvm.TestDbViewModel
-import dev.konnov.common.mvvm.TestDBViewState
+import dev.konnov.common.mvvm.TestDbViewState.Content
+import dev.konnov.common.mvvm.TestDbViewState.InProgress
 
 
 @Preview(showBackground = true, widthDp = 320, heightDp = 700)
@@ -52,10 +53,10 @@ fun ResultScreen(
     }
     val state by viewModel.state.collectAsState()
     when (val screenState = state) {
-        TestDBViewState.InProgress -> {
+        InProgress -> {
             Progress()
         }
-        is TestDBViewState.Content -> {
+        is Content -> {
             TestResultListScreen(screenState.results)
         }
     }
