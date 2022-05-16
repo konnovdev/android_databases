@@ -7,10 +7,10 @@ import javax.inject.Inject
 
 class TestResultConverter @Inject constructor() {
 
-    suspend inline fun <reified T : Any> convert(
+    inline fun <reified T : Any> convert(
         entities: List<T>,
         operationType: OperationType,
-        operation: suspend () -> Unit // TODO походу можно удалить suspend
+        operation: () -> Unit
     ): TestResult {
         val startTimestamp = System.currentTimeMillis()
 
@@ -20,7 +20,7 @@ class TestResultConverter @Inject constructor() {
         val timeTaken = endTimestamp - startTimestamp
 
         val datasetType = if (
-            entities.first()::class.java.declaredFields.first().type.equals(String::class.java) // TODO check if this works
+            entities.first()::class.java.declaredFields.first().type.equals(String::class.java)
         ) {
             DataSetType.STRING
         } else {
