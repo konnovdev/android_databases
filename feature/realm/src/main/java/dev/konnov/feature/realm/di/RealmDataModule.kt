@@ -26,7 +26,6 @@ class RealmDataModule {
         return Realm.open(configuration) // can also use RealmConfiguration.Builder for more options
     }
 
-
     // todo uncomment
 //    @Singleton
 //    @Provides

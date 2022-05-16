@@ -10,4 +10,7 @@ import javax.inject.Named
 class RealmDbViewModel @Inject constructor(
     @Named("Realm_usecase")
     testSpeedUseCase: TestSpeedUseCase
-) : TestDbViewModel(testSpeedUseCase)
+) : TestDbViewModel(testSpeedUseCase) {
+
+    override val testIterations: Int = 1
+}

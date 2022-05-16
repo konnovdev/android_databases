@@ -13,20 +13,17 @@ import kotlinx.coroutines.launch
 
 abstract class TestDbViewModel(private val testSpeedUseCase: TestSpeedUseCase) : ViewModel() {
 
-    private val _state = MutableStateFlow<TestDbViewState>(InProgress)
+    protected val _state = MutableStateFlow<TestDbViewState>(InProgress)
     val state: StateFlow<TestDbViewState> = _state
 
     val testSizes = listOf(SIZE_10k, SIZE_100k)
 
+    open val testIterations = 5
 
-    fun testDbSpeed() {
+    open fun testDbSpeed() {
         viewModelScope.launch {
-            val testResults = testSpeedUseCase(TEST_ITERATIONS, testSizes)
+            val testResults = testSpeedUseCase(testIterations, testSizes)
             _state.value = Content(testResults)
         }
-    }
-
-    private companion object {
-        const val TEST_ITERATIONS = 5
     }
 }
