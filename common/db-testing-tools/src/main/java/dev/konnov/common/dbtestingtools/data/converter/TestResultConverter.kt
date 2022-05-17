@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class TestResultConverter @Inject constructor() {
 
-    inline fun <reified T : Any> convert(
+    inline fun <T> convert(
         entities: List<T>,
         operationType: OperationType,
         operation: () -> Unit
@@ -20,7 +20,7 @@ class TestResultConverter @Inject constructor() {
         val timeTaken = endTimestamp - startTimestamp
 
         val datasetType = if (
-            entities.first()::class.java.declaredFields.first().type.equals(String::class.java)
+            entities.first()!!::class.java.declaredFields.first().type.equals(String::class.java)
         ) {
             DataSetType.STRING
         } else {

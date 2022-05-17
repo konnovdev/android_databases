@@ -1,62 +1,21 @@
 package dev.konnov.feature.sqliteopenhelper.data.repository
 
 import dev.konnov.common.dataset.newsreports.data.model.NewsReport
+import dev.konnov.common.dbtestingtools.data.converter.MockDtoConverter
 import dev.konnov.common.dbtestingtools.data.converter.TestResultConverter
 import dev.konnov.common.dbtestingtools.data.datasource.DataSetDataSource
 import dev.konnov.common.dbtestingtools.data.datasource.DbDataSource
-import dev.konnov.common.dbtestingtools.domain.entity.OperationType
-import dev.konnov.common.dbtestingtools.domain.entity.TestResult
-import dev.konnov.common.dbtestingtools.domain.repository.DbTestRepository
+import dev.konnov.common.dbtestingtools.domain.repository.DbTestRepositoryImpl
 import javax.inject.Inject
 
 class NewsDbTestRepository @Inject constructor(
-    private val dataSetDataSource: DataSetDataSource<String, NewsReport>,
-    private val dbDataSource: DbDataSource<String, NewsReport>,
-    private val testResultConverter: TestResultConverter,
-) : DbTestRepository {
-
-    private val data = mutableListOf<NewsReport>()
-
-    override suspend fun insert(entitiesSize: Int): TestResult {
-        dbDataSource.deleteAll()
-        data.clear()
-        data.addAll(dataSetDataSource.get(entitiesSize))
-
-        return testResultConverter.convert(
-            data,
-            OperationType.INSERT
-        ) { dbDataSource.insert(data) }
-    }
-
-    override suspend fun loadAll(): TestResult =
-        testResultConverter.convert(
-            data,
-            OperationType.LOAD_ALL
-        ) { dbDataSource.loadAll() }
-
-    override suspend fun loadByParameter(): TestResult =
-        testResultConverter.convert(
-            data,
-            OperationType.LOAD_BY_PARAM
-        ) { dbDataSource.loadByParameter(dataSetDataSource.parameterToLoadBy) }
-
-
-    override suspend fun update(): TestResult =
-        testResultConverter.convert(
-            data,
-            OperationType.UPDATE
-        ) {
-            dbDataSource.update(
-                dataSetDataSource.oldParameterToUpdate,
-                dataSetDataSource.objectToInsertAsUpdate
-            )
-        }
-
-    override suspend fun delete(): TestResult =
-        testResultConverter.convert(
-            data,
-            OperationType.DELETE
-        ) {
-            dbDataSource.delete(dataSetDataSource.parameterToDelete)
-        }
-}
+    dataSetDataSource: DataSetDataSource<String, NewsReport>,
+    dbDataSource: DbDataSource<String, NewsReport>,
+    testResultConverter: TestResultConverter,
+    dtoConverter: MockDtoConverter<NewsReport>
+) : DbTestRepositoryImpl<String, NewsReport, NewsReport>(
+    dataSetDataSource,
+    dbDataSource,
+    testResultConverter,
+    dtoConverter
+)
