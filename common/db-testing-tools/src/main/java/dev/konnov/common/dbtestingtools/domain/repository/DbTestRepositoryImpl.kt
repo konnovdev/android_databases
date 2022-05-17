@@ -7,7 +7,7 @@ import dev.konnov.common.dbtestingtools.data.datasource.DbDataSource
 import dev.konnov.common.dbtestingtools.domain.entity.OperationType
 import dev.konnov.common.dbtestingtools.domain.entity.TestResult
 
-abstract class DbTestRepositoryImpl<Param, Entity, DTO>(
+open class DbTestRepositoryImpl<Param, Entity, DTO>(
     private val dataSetDataSource: DataSetDataSource<Param, Entity>,
     private val dbDataSource: DbDataSource<Param, DTO>,
     private val testResultConverter: TestResultConverter,

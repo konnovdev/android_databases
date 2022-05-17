@@ -7,7 +7,14 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import dev.konnov.common.dataset.newsreports.data.model.NewsReport
+import dev.konnov.common.dataset.weatherlogs.data.model.WeatherLog
+import dev.konnov.common.dbtestingtools.data.converter.TestResultConverter
+import dev.konnov.common.dbtestingtools.data.datasource.DataSetDataSource
 import dev.konnov.common.dbtestingtools.data.datasource.DbDataSource
+import dev.konnov.common.dbtestingtools.domain.repository.DbTestRepositoryImpl
+import dev.konnov.feature.room.data.converter.NewsReportDtoConverter
+import dev.konnov.feature.room.data.converter.WeatherDtoConverter
 import dev.konnov.feature.room.data.database.NewsReportDao
 import dev.konnov.feature.room.data.database.RoomAppDatabase
 import dev.konnov.feature.room.data.database.WeatherLogDao
@@ -55,4 +62,34 @@ class RoomDataModule {
         newsReportDao: NewsReportDao
     ): DbDataSource<String, NewsReportDto> =
         NewsDbDataSource(newsReportDao)
+
+    @Singleton
+    @Provides
+    fun provideWeatherDbRepository(
+        dataSetDataSource: DataSetDataSource<Double, WeatherLog>,
+        dbDataSource: DbDataSource<Double, WeatherLogDto>,
+        testResultConverter: TestResultConverter,
+        dtoConverter: WeatherDtoConverter
+    ): DbTestRepositoryImpl<Double, WeatherLog, WeatherLogDto> =
+        DbTestRepositoryImpl(
+            dataSetDataSource,
+            dbDataSource,
+            testResultConverter,
+            dtoConverter
+        )
+
+    @Singleton
+    @Provides
+    fun provideNewsReportDbRepository(
+        dataSetDataSource: DataSetDataSource<String, NewsReport>,
+        dbDataSource: DbDataSource<String, NewsReportDto>,
+        testResultConverter: TestResultConverter,
+        dtoConverter: NewsReportDtoConverter
+    ): DbTestRepositoryImpl<String, NewsReport, NewsReportDto> =
+        DbTestRepositoryImpl(
+            dataSetDataSource,
+            dbDataSource,
+            testResultConverter,
+            dtoConverter
+        )
 }

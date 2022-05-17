@@ -4,9 +4,12 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
+import dev.konnov.common.dataset.newsreports.data.model.NewsReport
+import dev.konnov.common.dataset.weatherlogs.data.model.WeatherLog
+import dev.konnov.common.dbtestingtools.domain.repository.DbTestRepositoryImpl
 import dev.konnov.common.dbtestingtools.domain.usecase.TestSpeedUseCase
-import dev.konnov.feature.room.data.repository.NewsDbTestRepository
-import dev.konnov.feature.room.data.repository.WeatherDbTestRepository
+import dev.konnov.feature.room.data.model.NewsReportDto
+import dev.konnov.feature.room.data.model.WeatherLogDto
 import javax.inject.Named
 
 @Module
@@ -16,8 +19,8 @@ class RoomViewModelModule {
     @Provides
     @Named("Room_usecase")
     fun provideTestSpeedUseCase(
-        weatherDbTestRepository: WeatherDbTestRepository,
-        newsDbTestRepository: NewsDbTestRepository
+        weatherDbTestRepository: DbTestRepositoryImpl<Double, WeatherLog, WeatherLogDto>,
+        newsDbTestRepository: DbTestRepositoryImpl<String, NewsReport, NewsReportDto>
     ): TestSpeedUseCase =
         TestSpeedUseCase(listOf(
             weatherDbTestRepository,
