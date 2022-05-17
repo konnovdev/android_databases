@@ -20,7 +20,7 @@ open class DbTestRepositoryImpl<Param, Entity, DTO>(
         dbDataSource.deleteAll()
         data.clear()
         data.addAll(dataSetDataSource.get(entitiesSize))
-        val dtos = data.map(dtoConverter::convertToDto)
+        val dtos = data.map(dtoConverter::convert)
 
         return testResultConverter.convert(
             data,
@@ -41,7 +41,7 @@ open class DbTestRepositoryImpl<Param, Entity, DTO>(
         ) { dbDataSource.loadByParameter(dataSetDataSource.parameterToLoadBy) }
 
     override suspend fun update(): TestResult {
-        val dtoToUpdate = dtoConverter.convertToDto(dataSetDataSource.objectToInsertAsUpdate)
+        val dtoToUpdate = dtoConverter.convert(dataSetDataSource.objectToInsertAsUpdate)
 
         return testResultConverter.convert(
             data,

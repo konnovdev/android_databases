@@ -7,17 +7,10 @@ import javax.inject.Inject
 
 class WeatherDtoConverter @Inject constructor() : DtoConverter<WeatherLog, WeatherLogDto> {
 
-    override fun convertToDto(entity: WeatherLog): WeatherLogDto =
+    override fun convert(entity: WeatherLog): WeatherLogDto =
         WeatherLogDto(
             temperature = entity.temperature,
             humidity = entity.humidity,
             pressure = entity.pressure,
-        )
-
-    override fun convertToEntity(dto: WeatherLogDto): WeatherLog =
-        WeatherLog(
-            temperature = dto.temperature,
-            humidity = dto.humidity,
-            pressure = dto.pressure
         )
 }

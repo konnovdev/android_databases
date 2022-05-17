@@ -9,17 +9,11 @@ import javax.inject.Inject
 class NewsReportDtoConverter @Inject constructor() :
     DtoConverter<NewsReport, NewsReportDtoWrapper> {
 
-    override fun convertToDto(entity: NewsReport): NewsReportDtoWrapper =
+    override fun convert(entity: NewsReport): NewsReportDtoWrapper =
         NewsReportDtoWrapper(
             NewsReportDto().apply {
                 title = entity.title
                 description = entity.description
             }
-        )
-
-    override fun convertToEntity(dto: NewsReportDtoWrapper): NewsReport =
-        NewsReport(
-            title = dto.dto.title,
-            description = dto.dto.description
         )
 }
