@@ -17,7 +17,7 @@ error: ComponentProcessingStep was unable to process 'dev.konnov.databasesandroi
 
 Dependency trace:
 => element (CLASS): dev.konnov.feature.realm.data.repository.WeatherDbTestRepository
-=> type (DECLARED superclass): dev.konnov.common.dbtestingtools.domain.repository.DbTestRepositoryImpl<java.lang.Double,dev.konnov.common.dataset.weatherlogs.data.model.WeatherLog,dev.konnov.feature.realm.data.model.WeatherLogDto>
+=> type (DECLARED superclass): dev.konnov.common.dbtestingtools.data.repository.DbTestRepositoryImpl<java.lang.Double,dev.konnov.common.dataset.weatherlogs.data.model.WeatherLog,dev.konnov.feature.realm.data.model.WeatherLogDto>
 => type (ERROR type argument): dev.konnov.feature.realm.data.model.WeatherLogDto
 
 If type 'dev.konnov.feature.realm.data.model.WeatherLogDto' is a generated type, check above for compilation errors that may have prevented the type from being generated. Otherwise, ensure that type 'dev.konnov.feature.realm.data.model.WeatherLogDto' is on your classpath.

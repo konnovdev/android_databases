@@ -1,4 +1,4 @@
-package dev.konnov.common.dbtestingtools.domain.repository
+package dev.konnov.common.dbtestingtools.data.repository
 
 import dev.konnov.common.dbtestingtools.data.converter.DtoConverter
 import dev.konnov.common.dbtestingtools.data.converter.TestResultConverter
@@ -6,6 +6,7 @@ import dev.konnov.common.dbtestingtools.data.datasource.DataSetDataSource
 import dev.konnov.common.dbtestingtools.data.datasource.DbDataSource
 import dev.konnov.common.dbtestingtools.domain.entity.OperationType
 import dev.konnov.common.dbtestingtools.domain.entity.TestResult
+import dev.konnov.common.dbtestingtools.domain.repository.DbTestRepository
 
 open class DbTestRepositoryImpl<Param, Entity, DTO>(
     private val dataSetDataSource: DataSetDataSource<Param, Entity>,

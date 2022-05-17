@@ -4,6 +4,7 @@ import dev.konnov.common.dbtestingtools.domain.entity.DataSetType
 import dev.konnov.common.dbtestingtools.domain.entity.OperationType
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
+import java.math.BigDecimal
 
 internal class TestResultConverterTest {
 
@@ -35,6 +36,43 @@ internal class TestResultConverterTest {
         assertEquals(DataSetType.REAL, result.dataSetType)
         assertEquals(size, result.numberOfEntries)
         assertEquals(operationType, result.operationType)
+    }
+
+    @Test(expected = NoSuchElementException::class)
+    fun `empty list of entities EXPECT exceptio`() {
+        testResultConverter.convert(listOf<Int>(), OperationType.LOAD_ALL, {})
+    }
+
+    @Test
+    fun timeInMillisCorrect() {
+        val startTime = System.currentTimeMillis()
+        difficultMathOperation()
+        val endTime = System.currentTimeMillis()
+        val expectedTimeTaken = endTime - startTime
+
+        val testResult =
+            testResultConverter.convert(listOf(1, 2), OperationType.LOAD_ALL, operation = {
+                difficultMathOperation()
+            })
+        val actualTimeTaken = testResult.timeInMillis
+        val resultsAreSimilar = Math.abs(actualTimeTaken-expectedTimeTaken) < 500
+
+        println("time consuming operation time taken: ${testResult.timeInMillis}")
+        println("actual operation time taken: ${testResult.timeInMillis}")
+
+        assert(actualTimeTaken > 0)
+        assert(resultsAreSimilar)
+    }
+
+    private fun difficultMathOperation() {
+        var sum = BigDecimal(0)
+        repeat(1000000) { index ->
+            sum += BigDecimal(
+                Math.pow(9.132, 99.123124) / Math.exp(434.123) / Math.log10(
+                    13111213.3
+                ) * Math.pow(91.132, 11.232) * index
+            )
+        }
     }
 
     private data class TestEntity1(val firstParam: String, val secondParam: String)

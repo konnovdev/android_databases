@@ -12,7 +12,7 @@ import dev.konnov.common.dbtestingtools.data.converter.MockDtoConverter
 import dev.konnov.common.dbtestingtools.data.converter.TestResultConverter
 import dev.konnov.common.dbtestingtools.data.datasource.DataSetDataSource
 import dev.konnov.common.dbtestingtools.data.datasource.DbDataSource
-import dev.konnov.common.dbtestingtools.domain.repository.DbTestRepositoryImpl
+import dev.konnov.common.dbtestingtools.data.repository.DbTestRepositoryImpl
 import dev.konnov.feature.sqliteopenhelper.data.database.SqliteOpenHelperDbManager
 import dev.konnov.feature.sqliteopenhelper.data.datasource.NewsDbDataSource
 import dev.konnov.feature.sqliteopenhelper.data.datasource.WeatherDbDataSource

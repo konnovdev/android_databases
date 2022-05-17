@@ -6,7 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dev.konnov.common.dataset.newsreports.data.model.NewsReport
 import dev.konnov.common.dataset.weatherlogs.data.model.WeatherLog
-import dev.konnov.common.dbtestingtools.domain.repository.DbTestRepositoryImpl
+import dev.konnov.common.dbtestingtools.data.repository.DbTestRepositoryImpl
 import dev.konnov.common.dbtestingtools.domain.usecase.TestSpeedUseCase
 import dev.konnov.feature.room.data.model.NewsReportDto
 import dev.konnov.feature.room.data.model.WeatherLogDto
