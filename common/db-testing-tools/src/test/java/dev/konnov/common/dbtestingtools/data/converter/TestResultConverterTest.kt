@@ -44,24 +44,13 @@ internal class TestResultConverterTest {
     }
 
     @Test
-    fun timeInMillisCorrect() {
-        val startTime = System.currentTimeMillis()
-        difficultMathOperation()
-        val endTime = System.currentTimeMillis()
-        val expectedTimeTaken = endTime - startTime
-
+    fun timeInMillisAreNotZero() {
         val testResult =
             testResultConverter.convert(listOf(1, 2), OperationType.LOAD_ALL, operation = {
                 difficultMathOperation()
             })
-        val actualTimeTaken = testResult.timeInMillis
-        val resultsAreSimilar = Math.abs(actualTimeTaken-expectedTimeTaken) < 500
 
-        println("time consuming operation time taken: ${testResult.timeInMillis}")
-        println("actual operation time taken: ${testResult.timeInMillis}")
-
-        assert(actualTimeTaken > 0)
-        assert(resultsAreSimilar)
+        assert(testResult.timeInMillis > 5)
     }
 
     private fun difficultMathOperation() {
