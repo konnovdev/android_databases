@@ -42,7 +42,7 @@ dependencies {
     implementation libs.lifecycleViewmodelKtx
     implementation libs.bundles.composeDependencies
 
-    api(libs.realm)
+    implementation(libs.realm)
 
     implementation project(path: ':common:db-testing-tools')
     implementation project(path: ':common:dataset:weatherlogs')

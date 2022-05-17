@@ -2,16 +2,19 @@ package dev.konnov.feature.realm.data.datasource
 
 import dev.konnov.common.dbtestingtools.data.datasource.DbDataSource
 import dev.konnov.feature.realm.data.model.WeatherLogDto
+import dev.konnov.feature.realm.data.model.WeatherLogDtoWrapper
 import io.realm.Realm
 import io.realm.query
 import javax.inject.Inject
 
 class WeatherDbDataSource @Inject constructor(
     private val realm: Realm
-) : DbDataSource<Double, WeatherLogDto> {
+) : DbDataSource<Double, WeatherLogDtoWrapper> {
 
-    override suspend fun insert(items: List<WeatherLogDto>) {
-        items.map {
+    override suspend fun insert(items: List<WeatherLogDtoWrapper>) {
+        items
+            .map { it.dto }
+            .map {
             WeatherLogDto().apply {
                 this.temperature = it.temperature
                 this.humidity = it.humidity
@@ -32,15 +35,15 @@ class WeatherDbDataSource @Inject constructor(
         realm.query<WeatherLogDto>("temperature == $0", param).find()
     }
 
-    override suspend fun update(param: Double, objectToInsert: WeatherLogDto) {
+    override suspend fun update(param: Double, objectToInsert: WeatherLogDtoWrapper) {
         realm.query<WeatherLogDto>("temperature == $0", param)
             .find()
             .forEach { oldWeatherLogDto ->
                 realm.write {
                     findLatest(oldWeatherLogDto)?.apply {
-                        temperature = objectToInsert.temperature
-                        humidity = objectToInsert.humidity
-                        pressure = objectToInsert.pressure
+                        temperature = objectToInsert.dto.temperature
+                        humidity = objectToInsert.dto.humidity
+                        pressure = objectToInsert.dto.pressure
                     }
                 }
             }

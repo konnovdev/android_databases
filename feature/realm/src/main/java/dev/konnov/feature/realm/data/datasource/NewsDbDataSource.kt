@@ -2,16 +2,19 @@ package dev.konnov.feature.realm.data.datasource
 
 import dev.konnov.common.dbtestingtools.data.datasource.DbDataSource
 import dev.konnov.feature.realm.data.model.NewsReportDto
+import dev.konnov.feature.realm.data.model.NewsReportDtoWrapper
 import io.realm.Realm
 import io.realm.query
 import javax.inject.Inject
 
 class NewsDbDataSource @Inject constructor(
     private val realm: Realm
-) : DbDataSource<String, NewsReportDto> {
+) : DbDataSource<String, NewsReportDtoWrapper> {
 
-    override suspend fun insert(items: List<NewsReportDto>) {
-        items.map {
+    override suspend fun insert(items: List<NewsReportDtoWrapper>) {
+        items
+            .map { it.dto }
+            .map {
             NewsReportDto().apply {
                 this.title = it.title
                 this.description = it.description
@@ -31,14 +34,14 @@ class NewsDbDataSource @Inject constructor(
         realm.query<NewsReportDto>("title == $0", param).find()
     }
 
-    override suspend fun update(param: String, objectToInsert: NewsReportDto) {
+    override suspend fun update(param: String, objectToInsert: NewsReportDtoWrapper) {
         realm.query<NewsReportDto>("title == $0", param)
             .find()
             .forEach { oldNewsReportDto ->
                 realm.write {
                     findLatest(oldNewsReportDto)?.apply {
-                        title = objectToInsert.title
-                        description = objectToInsert.description
+                        title = objectToInsert.dto.title
+                        description = objectToInsert.dto.description
                     }
                 }
             }
