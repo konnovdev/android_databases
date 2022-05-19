@@ -1,7 +1,11 @@
 [versions]
 junit-core = "4.13.2"
 junit-jupiter = "5.8.2"
+mockito = "4.0.0"
+coroutines = "1.6.1"
 
 [libraries]
+coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 junitCore = { module = "junit:junit", version.ref = "junit-core" }
 junitJupiter = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit-jupiter" }
+mockito = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockito" }
