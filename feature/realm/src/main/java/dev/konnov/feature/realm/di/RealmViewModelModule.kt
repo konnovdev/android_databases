@@ -22,5 +22,5 @@ class RealmViewModelModule {
         weatherDbTestRepository: DbTestRepositoryImpl<Double, WeatherLog, WeatherLogDtoWrapper>,
         newsDbTestRepository: DbTestRepositoryImpl<String, NewsReport, NewsReportDtoWrapper>
     ): TestSpeedUseCase =
-        TestSpeedUseCase(listOf(weatherDbTestRepository, newsDbTestRepository))
+        TestSpeedUseCase(weatherDbTestRepository, newsDbTestRepository)
 }

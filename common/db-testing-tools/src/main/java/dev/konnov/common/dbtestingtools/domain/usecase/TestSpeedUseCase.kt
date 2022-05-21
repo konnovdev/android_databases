@@ -5,7 +5,9 @@ import dev.konnov.common.dbtestingtools.domain.repository.DbTestRepository
 import dev.konnov.common.dbtestingtools.group
 import javax.inject.Inject
 
-class TestSpeedUseCase @Inject constructor(private val repositories: List<DbTestRepository>) { // TODO replace list with vararg?
+class TestSpeedUseCase @Inject constructor(
+    private vararg val repositories: DbTestRepository
+) {
 
     suspend operator fun invoke(testIterations: Int, testSizes: List<Int>): List<TestResult> {
         val results = mutableListOf<TestResult>()

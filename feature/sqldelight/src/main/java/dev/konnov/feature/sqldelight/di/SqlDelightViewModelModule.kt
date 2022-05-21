@@ -22,10 +22,5 @@ class SqlDelightViewModelModule {
         @Named("sqldelight_weather_repository")
         weatherRepository: DbTestRepositoryImpl<Double, WeatherLog, WeatherLog>
     ): TestSpeedUseCase =
-        TestSpeedUseCase(
-            listOf(
-                newsRepository,
-                weatherRepository
-            )
-        )
+        TestSpeedUseCase(newsRepository, weatherRepository)
 }

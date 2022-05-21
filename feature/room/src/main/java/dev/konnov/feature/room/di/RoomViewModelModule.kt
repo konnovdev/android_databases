@@ -22,8 +22,5 @@ class RoomViewModelModule {
         weatherDbTestRepository: DbTestRepositoryImpl<Double, WeatherLog, WeatherLogDto>,
         newsDbTestRepository: DbTestRepositoryImpl<String, NewsReport, NewsReportDto>
     ): TestSpeedUseCase =
-        TestSpeedUseCase(listOf(
-            weatherDbTestRepository,
-            newsDbTestRepository
-        ))
+        TestSpeedUseCase(weatherDbTestRepository, newsDbTestRepository)
 }
