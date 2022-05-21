@@ -12,6 +12,7 @@ realm = "0.11.0"
 room = "2.4.2"
 sqldelight = "1.5.3"
 objectbox = "3.1.2"
+gson = "2.9.0"
 
 [libraries]
 coreKtx = { module = "androidx.core:core-ktx", version.ref = "core-ktx" }
@@ -38,6 +39,8 @@ roomKtx = { module = "androidx.room:room-ktx", version.ref = "room" }
 gradlePluginSqlDelight= { module = "com.squareup.sqldelight:gradle-plugin", version.ref = "sqldelight" }
 sqlDelightRuntime = { module = "com.squareup.sqldelight:android-driver", version.ref = "sqldelight" }
 gradlePluginObjectBox = { module = "io.objectbox:objectbox-gradle-plugin", version.ref = "objectbox" }
+
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 
 [bundles]
 composeDependencies = ["composeUi", "composeMaterial", "composeUiToolingPreview", "composeUiTooling"]

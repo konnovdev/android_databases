@@ -16,7 +16,7 @@ abstract class TestDbViewModel(private val testSpeedUseCase: TestSpeedUseCase) :
     protected val _state = MutableStateFlow<TestDbViewState>(InProgress)
     val state: StateFlow<TestDbViewState> = _state
 
-    val testSizes = listOf(SIZE_10k, SIZE_100k)
+    open val testSizes = listOf(SIZE_10k, SIZE_100k)
 
     open val testIterations = 5
 

@@ -1,28 +1,34 @@
 package dev.konnov.feature.sharedpreferences.presentation
 
-import android.content.SharedPreferences
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.konnov.common.dbtestingtools.domain.entity.SIZE_10k
+import dev.konnov.common.dbtestingtools.domain.usecase.TestSpeedUseCase
+import dev.konnov.common.mvvm.TestDbViewModel
+import dev.konnov.common.mvvm.TestDbViewState
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import javax.inject.Named
 
 @HiltViewModel
-class SharedPreferencesViewModel @Inject constructor() : ViewModel() {
+class SharedPreferencesViewModel @Inject constructor(
+    @Named("Sharedprefs_usecase")
+    private val testSpeedUseCase: TestSpeedUseCase
+) : TestDbViewModel(testSpeedUseCase) {
 
-    fun testDbSpeed() {
-        //TODO implement
-        testSharedPreferencesWork()
-    }
+    override val testIterations = 1
 
-    // TODO delete, this is just for a test
-    @Inject
-    lateinit var sharedPreferences: SharedPreferences
-    private fun testSharedPreferencesWork() {
-        sharedPreferences
-            .edit()  // create an Editor
-            .putString("key", "testkey")
-            .apply() // write to disk asynchronously
+    override val testSizes: List<Int> = listOf(SIZE_10k)
 
-        val key = sharedPreferences.getString("key", "")
-        println("sharedprefs_test: $key")
+    override fun testDbSpeed() {
+        viewModelScope.launch(IO) {
+            val testResults = testSpeedUseCase(testIterations, testSizes)
+            withContext(Main) {
+                _state.value = TestDbViewState.Content(testResults)
+            }
+        }
     }
 }
