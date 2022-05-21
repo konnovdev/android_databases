@@ -20,8 +20,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.konnov.databasesandroid.ui.theme.DatabasesAndroidTheme
+import dev.konnov.feature.objectbox.ui.ObjectBoxScreen
 import dev.konnov.feature.realm.ui.RealmScreen
-import dev.konnov.feature.room.ObjectBoxScreen
 import dev.konnov.feature.room.ui.RoomScreen
 import dev.konnov.feature.sharedpreferences.ui.SharedPreferenceScreen
 import dev.konnov.feature.sqldelight.ui.SqlDelightScreen

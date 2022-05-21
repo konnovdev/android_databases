@@ -4,34 +4,73 @@
   "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
   "entities": [
     {
-      "id": "1:3463374937315399559",
-      "lastPropertyId": "2:2087612321664377808",
-      "name": "Playlist",
+      "id": "2:3793942859747025019",
+      "lastPropertyId": "3:3605173746293342994",
+      "name": "NewsReportDto",
       "properties": [
         {
-          "id": "1:5954298670742446403",
+          "id": "1:5016727410026098808",
           "name": "id",
           "type": 6,
           "flags": 1
         },
         {
-          "id": "2:2087612321664377808",
-          "name": "songName",
+          "id": "2:7463242200326591963",
+          "name": "title",
           "type": 9
+        },
+        {
+          "id": "3:3605173746293342994",
+          "name": "description",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:9198212437156185190",
+      "lastPropertyId": "4:5000242363425957173",
+      "name": "WeatherLogDto",
+      "properties": [
+        {
+          "id": "1:6245136719304206751",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:3541679000887056166",
+          "name": "temperature",
+          "type": 8
+        },
+        {
+          "id": "3:6303398952501368235",
+          "name": "humidity",
+          "type": 8
+        },
+        {
+          "id": "4:5000242363425957173",
+          "name": "pressure",
+          "type": 8
         }
       ],
       "relations": []
     }
   ],
-  "lastEntityId": "1:3463374937315399559",
+  "lastEntityId": "3:9198212437156185190",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
   "modelVersionParserMinimum": 5,
-  "retiredEntityUids": [],
+  "retiredEntityUids": [
+    3463374937315399559
+  ],
   "retiredIndexUids": [],
-  "retiredPropertyUids": [],
+  "retiredPropertyUids": [
+    5954298670742446403,
+    2087612321664377808
+  ],
   "retiredRelationUids": [],
   "version": 1
 }
