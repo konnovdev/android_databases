@@ -44,6 +44,9 @@ dependencies {
     implementation libs.lifecycleViewmodelKtx
     implementation libs.bundles.composeDependencies
 
-    implementation project(path: ':common:db-testing-tools')
-    implementation project(path: ':common:dataset:weatherlogs')
+    implementation project(':common:db-testing-tools')
+    implementation project(':common:dataset:weatherlogs')
+    implementation project(':common:dataset:news-reports')
+    implementation project(':common:ui')
+    implementation project(':common:mvvm')
 }

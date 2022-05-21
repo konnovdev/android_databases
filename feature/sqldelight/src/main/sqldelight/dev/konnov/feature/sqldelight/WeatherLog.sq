@@ -1,0 +1,30 @@
+CREATE TABLE weatherLog(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    temperature REAL,
+    humidity REAL,
+    pressure REAL
+);
+
+insert:
+INSERT INTO weatherLog (temperature, humidity, pressure)
+VALUES (?, ?, ?);
+
+selectAll:
+SELECT *
+FROM weatherLog;
+
+selectByTemperature:
+SELECT *
+FROM weatherLog
+WHERE temperature = ?;
+
+updateByTemperature:
+UPDATE weatherLog
+SET temperature = ?, humidity = ?, pressure = ?
+WHERE temperature = ?;
+
+deleteByTemperature:
+DELETE FROM weatherLog WHERE temperature = ?;
+
+deleteAll:
+DELETE FROM weatherLog;

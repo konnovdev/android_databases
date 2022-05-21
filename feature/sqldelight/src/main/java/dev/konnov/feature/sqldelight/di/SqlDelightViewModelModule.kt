@@ -1,4 +1,4 @@
-package dev.konnov.feature.sqliteopenhelper.di
+package dev.konnov.feature.sqldelight.di
 
 import dagger.Module
 import dagger.Provides
@@ -12,15 +12,20 @@ import javax.inject.Named
 
 @Module
 @InstallIn(ViewModelComponent::class)
-class SqliteOpenHelperViewModelModule {
+class SqlDelightViewModelModule {
 
     @Provides
-    @Named("Sqliteopenhelper_usecase")
+    @Named("Sqldelight_usecase")
     fun provideTestSpeedUseCase(
-        @Named("sqliteopenhelper_weather_repository")
-        weatherDbTestRepository: DbTestRepositoryImpl<Double, WeatherLog, WeatherLog>,
-        @Named("sqliteopenhelper_news_repository")
-        newsDbTestRepository: DbTestRepositoryImpl<String, NewsReport, NewsReport>
+        @Named("sqldelight_news_repository")
+        newsRepository: DbTestRepositoryImpl<String, NewsReport, NewsReport>,
+        @Named("sqldelight_weather_repository")
+        weatherRepository: DbTestRepositoryImpl<Double, WeatherLog, WeatherLog>
     ): TestSpeedUseCase =
-        TestSpeedUseCase(listOf(weatherDbTestRepository, newsDbTestRepository))
+        TestSpeedUseCase(
+            listOf(
+                newsRepository,
+                weatherRepository
+            )
+        )
 }

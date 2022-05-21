@@ -16,6 +16,7 @@ import dev.konnov.common.dbtestingtools.data.repository.DbTestRepositoryImpl
 import dev.konnov.feature.sqliteopenhelper.data.database.SqliteOpenHelperDbManager
 import dev.konnov.feature.sqliteopenhelper.data.datasource.NewsDbDataSource
 import dev.konnov.feature.sqliteopenhelper.data.datasource.WeatherDbDataSource
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -46,6 +47,7 @@ class SqliteOpenHelperDataModule {
 
     @Singleton
     @Provides
+    @Named("sqliteopenhelper_weather_repository")
     fun provideWeatherDbRepository(
         dataSetDataSource: DataSetDataSource<Double, WeatherLog>,
         dbDataSource: DbDataSource<Double, WeatherLog>,
@@ -61,6 +63,7 @@ class SqliteOpenHelperDataModule {
 
     @Singleton
     @Provides
+    @Named("sqliteopenhelper_news_repository")
     fun provideNewsReportDbRepository(
         dataSetDataSource: DataSetDataSource<String, NewsReport>,
         dbDataSource: DbDataSource<String, NewsReport>,

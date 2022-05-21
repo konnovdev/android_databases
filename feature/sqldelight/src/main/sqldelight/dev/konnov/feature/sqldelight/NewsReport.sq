@@ -1,0 +1,28 @@
+CREATE TABLE newsReport(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT,
+    description TEXT
+);
+
+insert:
+INSERT INTO newsReport (title, description)
+VALUES (?, ?);
+
+selectAll:
+SELECT *
+FROM newsReport;
+
+selectByTitle:
+SELECT *
+FROM newsReport
+WHERE title = ?;
+
+updateByTitle:
+UPDATE newsReport
+SET title = ?, description = ?;
+
+deleteByTitle:
+DELETE FROM newsReport WHERE title = ?;
+
+deleteAll:
+DELETE FROM newsReport;

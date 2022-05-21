@@ -1,37 +1,29 @@
 package dev.konnov.feature.sqldelight.presentation
 
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.konnov.feature.sqldelight.Database
-import dev.konnov.feature.sqldelight.HockeyPlayer
-import dev.konnov.feature.sqldelight.PlayerQueries
+import dev.konnov.common.dbtestingtools.domain.usecase.TestSpeedUseCase
+import dev.konnov.common.mvvm.TestDbViewModel
+import dev.konnov.common.mvvm.TestDbViewState
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import javax.inject.Named
 
 @HiltViewModel
-class SqlDelightViewModel @Inject constructor() : ViewModel() {
+class SqlDelightViewModel @Inject constructor(
+    @Named("Sqldelight_usecase")
+    private val testSpeedUseCase: TestSpeedUseCase
+) : TestDbViewModel(testSpeedUseCase) {
 
-    fun testDbSpeed() {
-        // TODO implement
-        testSqlDelightWorks()
-    }
-
-
-    // TODO delete this, it's just test
-    @Inject
-    lateinit var database: Database
-
-    private fun testSqlDelightWorks() {
-        val playerQueries: PlayerQueries = database.playerQueries
-
-        println(playerQueries.selectAll().executeAsList())
-// Prints [HockeyPlayer(15, "Ryan Getzlaf")]
-
-        playerQueries.insert(player_number = 10, full_name = "Corey Perry")
-        println(playerQueries.selectAll().executeAsList())
-// Prints [HockeyPlayer(15, "Ryan Getzlaf"), HockeyPlayer(10, "Corey Perry")]
-
-        val player = HockeyPlayer(10, "Ronald McDonald")
-        playerQueries.insertFullPlayerObject(player)
-
+    override fun testDbSpeed() {
+        viewModelScope.launch(IO) {
+            val testResults = testSpeedUseCase(testIterations, testSizes)
+            withContext(Main) {
+                _state.value = TestDbViewState.Content(testResults)
+            }
+        }
     }
 }
