@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'dagger.hilt.android.plugin'
     id 'kotlin-kapt'
+    id "com.google.protobuf" version "0.8.18"
 }
 
 apply(from: "$rootDir/application.gradle")
@@ -30,17 +31,45 @@ android {
     }
 }
 
+protobuf {
+    // Configures the Protobuf compilation and the protoc executable
+    protoc {
+        // Downloads from the repositories
+        artifact = "com.google.protobuf:protoc:3.20.0"
+    }
+
+    // Generates the java Protobuf-lite code for the Protobufs in this project
+    generateProtoTasks {
+        all().each { task ->
+            task.builtins {
+                // Configures the task output type
+                java {
+                    // Java Lite has smaller code size and is recommended for Android
+                    option 'lite'
+                }
+            }
+        }
+    }
+}
+
 dependencies {
     implementation libs.hiltNavigationCompose
     implementation libs.daggerHiltAndroid
     kapt(libs.hiltAndroidCompiler)
     kapt(libs.hiltCompiler)
 
+    implementation  "com.google.protobuf:protobuf-javalite:3.18.0"
+
     implementation libs.coreKtx
     implementation libs.lifecycleRuntimeKtx
     implementation libs.lifecycleViewmodelKtx
     implementation libs.bundles.composeDependencies
 
-    implementation project(path: ':common:db-testing-tools')
-    implementation project(path: ':common:dataset:weatherlogs')
+    implementation libs.datastore
+
+    implementation project(':common:dataset:news-reports')
+    implementation project(':common:mvvm')
+    implementation project(':common:db-testing-tools')
+    implementation project(':common:dataset:weatherlogs')
+    implementation project(':common:ui')
 }

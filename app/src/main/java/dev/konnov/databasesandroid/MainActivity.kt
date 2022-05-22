@@ -20,6 +20,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.konnov.databasesandroid.ui.theme.DatabasesAndroidTheme
+import dev.konnov.feature.datastore.ui.DataStoreScreen
 import dev.konnov.feature.objectbox.ui.ObjectBoxScreen
 import dev.konnov.feature.realm.ui.RealmScreen
 import dev.konnov.feature.room.ui.RoomScreen
@@ -42,7 +43,8 @@ class MainActivity : ComponentActivity() {
                         { navController.navigate("room") },
                         { navController.navigate("objectbox") },
                         { navController.navigate("sqldelight") },
-                        { navController.navigate("sharedpreferences") }
+                        { navController.navigate("sharedpreferences") },
+                        { navController.navigate("datastore") }
                     )
                 }
 
@@ -57,6 +59,8 @@ class MainActivity : ComponentActivity() {
                 composable("sqldelight") { SqlDelightScreen(hiltViewModel()) }
 
                 composable("sharedpreferences") { SharedPreferenceScreen(hiltViewModel()) }
+
+                composable("datastore") { DataStoreScreen(hiltViewModel()) }
             }
         }
     }
@@ -65,7 +69,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 @Preview(showBackground = true, widthDp = 320, heightDp = 700)
 private fun PreviewMainScreen() {
-    MainScreen({}, {}, {}, {}, {}, {})
+    MainScreen({}, {}, {}, {}, {}, {}, {})
 }
 
 @Composable
@@ -75,7 +79,8 @@ private fun MainScreen(
     roomClicked: () -> Unit,
     objectBoxClicked: () -> Unit,
     sqlDelightClicked: () -> Unit,
-    sharedPrefencesClicked: () -> Unit
+    sharedPrefencesClicked: () -> Unit,
+    datastoreClicked: () -> Unit
 ) {
     DatabasesAndroidTheme {
         Surface(
@@ -105,6 +110,9 @@ private fun MainScreen(
                 }
                 Button(onClick = { sharedPrefencesClicked() }) {
                     Text(text = "sharedPreferences")
+                }
+                Button(onClick = { datastoreClicked() }) {
+                    Text(text = "datastore")
                 }
             }
         }
