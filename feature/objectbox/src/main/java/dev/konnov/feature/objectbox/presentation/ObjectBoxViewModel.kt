@@ -13,5 +13,6 @@ class ObjectBoxViewModel @Inject constructor(
     testSpeedUseCase: TestSpeedUseCase
 ): TestDbViewModel(testSpeedUseCase) {
 
+    // todo перевести работу на io тред
     override val testIterations = 1
 }

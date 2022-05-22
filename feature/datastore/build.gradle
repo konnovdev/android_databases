@@ -68,8 +68,8 @@ dependencies {
     implementation libs.datastore
 
     implementation project(':common:dataset:news-reports')
+    implementation project(':common:dataset:weatherlogs')
     implementation project(':common:mvvm')
     implementation project(':common:db-testing-tools')
-    implementation project(':common:dataset:weatherlogs')
     implementation project(':common:ui')
 }

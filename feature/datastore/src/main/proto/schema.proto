@@ -3,6 +3,21 @@ syntax = "proto3";
 option java_package = "dev.konnov.feature.datastore";
 option java_multiple_files = true;
 
-message Settings {
-  int32 example_counter = 1;
+message WeatherLogList {
+  repeated WeatherLogDto weather = 1;
+}
+
+message WeatherLogDto {
+  double temperature = 1;
+  double humidity = 2;
+  double pressure = 3;
+}
+
+message NewsReportList {
+  repeated NewsReportDto news = 1;
+}
+
+message NewsReportDto {
+  string title = 1;
+  string description = 2;
 }
