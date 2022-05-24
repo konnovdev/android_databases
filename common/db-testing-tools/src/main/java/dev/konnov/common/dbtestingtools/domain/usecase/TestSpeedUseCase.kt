@@ -25,14 +25,14 @@ class TestSpeedUseCase @Inject constructor(
     private suspend fun DbTestRepository.test(entriesSize: Int): List<TestResult> {
         val insertResults = insert(entriesSize)
         val loadEverythingResult = loadAll()
-        val updateEverythingResult = update()
+        val updateResult = update()
         val loadByParameterResult = loadByParameter()
         val deleteResult = delete()
 
         return listOf(
             insertResults,
             loadEverythingResult,
-            updateEverythingResult,
+            updateResult,
             loadByParameterResult,
             deleteResult
         )
