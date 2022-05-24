@@ -3,7 +3,7 @@ package dev.konnov.common.dbtestingtools.data
 import dev.konnov.common.dbtestingtools.domain.entity.DataSetType
 import dev.konnov.common.dbtestingtools.domain.entity.OperationType
 import dev.konnov.common.dbtestingtools.domain.entity.TestResult
-import dev.konnov.common.dbtestingtools.group
+import dev.konnov.common.dbtestingtools.transformToAverages
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
 
@@ -64,7 +64,7 @@ internal class TestResultsExtKtTest {
 
     @Test
     fun testAverageCalculationsForNumberPairsOfDifferentKinds() {
-        val processedTestResults = testResults.group()
+        val processedTestResults = testResults.transformToAverages()
         val timeInMillisProcessed = processedTestResults.map { it.timeInMillis }
 
         for (i in 0 until testResults.size - 2 step 2) {
@@ -91,7 +91,7 @@ internal class TestResultsExtKtTest {
             TestResult(num5, dataSetType, numOfEntries, operationType),
         )
 
-        val actualResults = testResultsOfTheSameKind.group().map { it.timeInMillis }
+        val actualResults = testResultsOfTheSameKind.transformToAverages().map { it.timeInMillis }
         val expectedResult = listOf(num1, num2, num3, num4, num5).average().toLong()
 
         assertEquals(1, actualResults.size)

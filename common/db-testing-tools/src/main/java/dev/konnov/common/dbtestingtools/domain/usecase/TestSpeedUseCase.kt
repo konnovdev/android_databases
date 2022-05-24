@@ -2,7 +2,7 @@ package dev.konnov.common.dbtestingtools.domain.usecase
 
 import dev.konnov.common.dbtestingtools.domain.entity.TestResult
 import dev.konnov.common.dbtestingtools.domain.repository.DbTestRepository
-import dev.konnov.common.dbtestingtools.group
+import dev.konnov.common.dbtestingtools.transformToAverages
 import javax.inject.Inject
 
 class TestSpeedUseCase @Inject constructor(
@@ -19,7 +19,7 @@ class TestSpeedUseCase @Inject constructor(
                 }
             }
         }
-        return results.group()
+        return results.transformToAverages()
     }
 
     private suspend fun DbTestRepository.test(entriesSize: Int): List<TestResult> {

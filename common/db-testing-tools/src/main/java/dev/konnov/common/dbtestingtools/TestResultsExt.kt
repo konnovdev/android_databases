@@ -2,7 +2,7 @@ package dev.konnov.common.dbtestingtools
 
 import dev.konnov.common.dbtestingtools.domain.entity.TestResult
 
-fun List<TestResult>.group() =
+fun List<TestResult>.transformToAverages() =
     this.groupBy {
         it.dataSetType
     }
