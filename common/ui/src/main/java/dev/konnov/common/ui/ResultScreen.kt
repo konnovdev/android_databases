@@ -1,9 +1,7 @@
 package dev.konnov.common.ui
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.CircularProgressIndicator
@@ -20,6 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.konnov.common.dbtestingtools.domain.entity.TestResult
 import dev.konnov.common.dbtestingtools.domain.entity.fakeTestResults
+import dev.konnov.common.dbtestingtools.toListOfRows
 import dev.konnov.common.mvvm.TestDbViewModel
 import dev.konnov.common.mvvm.TestDbViewState.Content
 import dev.konnov.common.mvvm.TestDbViewState.InProgress
@@ -29,6 +28,12 @@ import dev.konnov.common.mvvm.TestDbViewState.InProgress
 @Composable
 private fun PreviewTestResultScreen() {
     TestResultListScreen(fakeTestResults)
+}
+
+@Preview(showBackground = true, widthDp = 320, heightDp = 700)
+@Composable
+private fun PreviewTestTableScreen() {
+    TestTableScreen(fakeTestResults)
 }
 
 @Preview(showBackground = true, widthDp = 320, heightDp = 700)
@@ -57,21 +62,70 @@ fun ResultScreen(
             Progress()
         }
         is Content -> {
-            TestResultListScreen(screenState.results)
+            TestTableScreen(screenState.results)
         }
     }
 }
 
 @Composable
 fun TestResultListScreen(testResults: List<TestResult>) {
-    Column(Modifier.verticalScroll(rememberScrollState()).padding(8.dp)) {
+    Column(
+        Modifier
+            .verticalScroll(rememberScrollState())
+            .padding(8.dp)
+    ) {
         Text("Test results: ")
         testResults.forEach {
             Text("dataSetType = ${it.dataSetType}")
             Text("numberOfEntries = ${it.numberOfEntries}")
             Text("operationType = ${it.operationType}")
             Text("average timeInMillis = ${it.timeInMillis}")
-            Divider(Modifier.padding(top = 8.dp, bottom = 8.dp), color = Color.Blue, thickness = 1.dp)
+            Divider(
+                Modifier.padding(top = 8.dp, bottom = 8.dp),
+                color = Color.Blue,
+                thickness = 1.dp
+            )
+        }
+    }
+}
+
+@Composable
+fun TestTableScreen(testResults: List<TestResult>) {
+
+    val headerRows = testResults.groupBy { it.dataSetType }.keys
+    val contentRows = testResults.toListOfRows()
+
+    Column(
+        Modifier
+            .verticalScroll(rememberScrollState())
+            .padding(8.dp)
+    ) {
+        Row(Modifier.fillMaxWidth()) {
+            Box(
+                modifier = Modifier
+                    .height(40.dp)
+                    .width(80.dp)
+            )
+            headerRows.forEach {
+                Text(
+                    text = it.name,
+                    Modifier
+                        .padding(start = 20.dp)
+                        .height(40.dp)
+                        .width(80.dp)
+                )
+            }
+        }
+
+        contentRows.forEach {
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .horizontalScroll(rememberScrollState())) {
+                it.forEach {
+                    Text(text = it, Modifier.padding(8.dp).width(84.dp))
+                }
+            }
         }
     }
 }

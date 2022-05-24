@@ -38,7 +38,7 @@ open class DbTestRepositoryImpl<Param, Entity, DTO>(
     override suspend fun loadByParameter(): TestResult =
         testResultConverter.convert(
             data,
-            OperationType.LOAD_BY_PARAM
+            OperationType.LOAD_PARAM
         ) { dbDataSource.loadByParameter(dataSetDataSource.parameterToLoadBy) }
 
     override suspend fun update(): TestResult {

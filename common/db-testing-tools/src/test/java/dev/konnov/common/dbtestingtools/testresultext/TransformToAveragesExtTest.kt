@@ -1,4 +1,4 @@
-package dev.konnov.common.dbtestingtools.data
+package dev.konnov.common.dbtestingtools.testresultext
 
 import dev.konnov.common.dbtestingtools.domain.entity.DataSetType
 import dev.konnov.common.dbtestingtools.domain.entity.OperationType
@@ -7,7 +7,7 @@ import dev.konnov.common.dbtestingtools.transformToAverages
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
 
-internal class TestResultsExtKtTest {
+internal class TransformToAveragesExtTest {
 
     private val testResults = listOf(
         TestResult(13232399, DataSetType.STRING, 10000, OperationType.INSERT),
@@ -30,15 +30,15 @@ internal class TestResultsExtKtTest {
         TestResult(92453263, DataSetType.REAL, 100_000, OperationType.LOAD_ALL),
         TestResult(92451263, DataSetType.REAL, 100_000, OperationType.LOAD_ALL),
 
-        TestResult(6534554, DataSetType.STRING, 10000, OperationType.LOAD_BY_PARAM),
-        TestResult(65345154, DataSetType.STRING, 10000, OperationType.LOAD_BY_PARAM),
-        TestResult(615345154, DataSetType.STRING, 100_000, OperationType.LOAD_BY_PARAM),
-        TestResult(655345154, DataSetType.STRING, 100_000, OperationType.LOAD_BY_PARAM),
+        TestResult(6534554, DataSetType.STRING, 10000, OperationType.LOAD_PARAM),
+        TestResult(65345154, DataSetType.STRING, 10000, OperationType.LOAD_PARAM),
+        TestResult(615345154, DataSetType.STRING, 100_000, OperationType.LOAD_PARAM),
+        TestResult(655345154, DataSetType.STRING, 100_000, OperationType.LOAD_PARAM),
 
-        TestResult(45345154, DataSetType.REAL, 10000, OperationType.LOAD_BY_PARAM),
-        TestResult(75345154, DataSetType.REAL, 10000, OperationType.LOAD_BY_PARAM),
-        TestResult(753452154, DataSetType.REAL, 100_000, OperationType.LOAD_BY_PARAM),
-        TestResult(753457154, DataSetType.REAL, 100_000, OperationType.LOAD_BY_PARAM),
+        TestResult(45345154, DataSetType.REAL, 10000, OperationType.LOAD_PARAM),
+        TestResult(75345154, DataSetType.REAL, 10000, OperationType.LOAD_PARAM),
+        TestResult(753452154, DataSetType.REAL, 100_000, OperationType.LOAD_PARAM),
+        TestResult(753457154, DataSetType.REAL, 100_000, OperationType.LOAD_PARAM),
 
         TestResult(231233, DataSetType.STRING, 10000, OperationType.UPDATE),
         TestResult(235233, DataSetType.STRING, 10000, OperationType.UPDATE),
