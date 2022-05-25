@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -13,22 +12,18 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.konnov.common.dbtestingtools.domain.entity.TestResult
 import dev.konnov.common.dbtestingtools.domain.entity.fakeTestResults
+import dev.konnov.common.dbtestingtools.shorten
 import dev.konnov.common.dbtestingtools.toListOfRows
 import dev.konnov.common.mvvm.TestDbViewModel
 import dev.konnov.common.mvvm.TestDbViewState.Content
 import dev.konnov.common.mvvm.TestDbViewState.InProgress
-
-
-@Preview(showBackground = true, widthDp = 320, heightDp = 700)
-@Composable
-private fun PreviewTestResultScreen() {
-    TestResultListScreen(fakeTestResults)
-}
 
 @Preview(showBackground = true, widthDp = 320, heightDp = 700)
 @Composable
@@ -67,32 +62,17 @@ fun ResultScreen(
     }
 }
 
-@Composable
-fun TestResultListScreen(testResults: List<TestResult>) {
-    Column(
-        Modifier
-            .verticalScroll(rememberScrollState())
-            .padding(8.dp)
-    ) {
-        Text("Test results: ")
-        testResults.forEach {
-            Text("dataSetType = ${it.dataSetType}")
-            Text("numberOfEntries = ${it.numberOfEntries}")
-            Text("operationType = ${it.operationType}")
-            Text("average timeInMillis = ${it.timeInMillis}")
-            Divider(
-                Modifier.padding(top = 8.dp, bottom = 8.dp),
-                color = Color.Blue,
-                thickness = 1.dp
-            )
-        }
-    }
-}
-
+// TODO rewrite it in more readable way
 @Composable
 fun TestTableScreen(testResults: List<TestResult>) {
+    val headers =
+        testResults
+            .groupBy { it.numberOfEntries }
+            .map {
+                it.key to it.value.groupBy { it.dataSetType }.keys.toList()
+            }.toMap()
 
-    val headerRows = testResults.groupBy { it.dataSetType }.keys
+
     val contentRows = testResults.toListOfRows()
 
     Column(
@@ -100,32 +80,60 @@ fun TestTableScreen(testResults: List<TestResult>) {
             .verticalScroll(rememberScrollState())
             .padding(8.dp)
     ) {
-        Row(Modifier.fillMaxWidth()) {
-            Box(
-                modifier = Modifier
-                    .height(40.dp)
-                    .width(80.dp)
-            )
-            headerRows.forEach {
-                Text(
-                    text = it.name,
-                    Modifier
-                        .padding(start = 20.dp)
-                        .height(40.dp)
-                        .width(80.dp)
-                )
-            }
-        }
+        headers
+            .entries
+            .forEach { numberOfEntriesToDataSetTypesMap ->
+                Row(Modifier.fillMaxWidth()) {
+                    Text(
+                        text = numberOfEntriesToDataSetTypesMap.key.shorten(),
+                        Modifier
+                            .width(74.dp),
+                        textAlign = TextAlign.Center,
+                        fontWeight = FontWeight.Bold
+                    )
 
-        contentRows.forEach {
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .horizontalScroll(rememberScrollState())) {
-                it.forEach {
-                    Text(text = it, Modifier.padding(8.dp).width(84.dp))
+                    numberOfEntriesToDataSetTypesMap.value.forEach {
+                        Text(
+                            text = it.toString(),
+                            Modifier
+                                .width(90.dp)
+                                .padding(bottom = 8.dp),
+                            textAlign = TextAlign.Center,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
                 }
+                contentRows
+                    .filter {
+                        it.numberOfEntries == numberOfEntriesToDataSetTypesMap.key
+                    }
+                    .forEach {
+                        Row(
+                            Modifier
+                                .fillMaxWidth()
+                                .horizontalScroll(rememberScrollState())
+                        ) {
+                            it.items.forEachIndexed { index, rowText ->
+                                if (index == 0) {
+                                    Text(
+                                        text = rowText,
+                                        Modifier.width(74.dp).padding(vertical = 4.dp),
+                                        textAlign = TextAlign.Center,
+                                        fontStyle = FontStyle.Italic
+                                    )
+                                } else {
+                                    Text(
+                                        text = rowText,
+                                        Modifier.width(90.dp).padding(vertical = 4.dp),
+                                        textAlign = TextAlign.Center
+                                    )
+                                }
+
+                            }
+                        }
+                    }
+
+                Spacer(Modifier.fillMaxWidth().height(32.dp))
             }
-        }
     }
 }

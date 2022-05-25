@@ -1,5 +1,6 @@
 package dev.konnov.common.dbtestingtools.testresultext
 
+import dev.konnov.common.dbtestingtools.GroupedTestOutput
 import dev.konnov.common.dbtestingtools.domain.entity.DataSetType
 import dev.konnov.common.dbtestingtools.domain.entity.OperationType
 import dev.konnov.common.dbtestingtools.domain.entity.TestResult
@@ -45,16 +46,16 @@ class ConvertToRowsTest {
     fun testConvertToRows() {
         val expected =
             listOf(
-                listOf("insert 10k", "13232399", "132325559"),
-                listOf("load_all 10k", "9245263", "92456631"),
-                listOf("load_param 10k", "65345154", "453451541"),
-                listOf("update 10k", "235233", "2355331"),
-                listOf("delete 10k", "42122", "541221"),
-                listOf("insert 100k", "132352599", "1323255579"),
-                listOf("load_all 100k", "92452643", "924512631"),
-                listOf("load_param 100k", "615345154", "7534521541"),
-                listOf("update 100k", "2358233", "23565331"),
-                listOf("delete 100k", "321122", "5541221"),
+                GroupedTestOutput(10_000, listOf("insert", "13232399", "132325559")),
+                GroupedTestOutput(10_000, listOf("load_all", "9245263", "92456631")),
+                GroupedTestOutput(10_000, listOf("load_param", "65345154", "453451541")),
+                GroupedTestOutput(10_000, listOf("update", "235233", "2355331")),
+                GroupedTestOutput(10_000, listOf("delete", "42122", "541221")),
+                GroupedTestOutput(100_000, listOf("insert", "132352599", "1323255579")),
+                GroupedTestOutput(100_000, listOf("load_all", "92452643", "924512631")),
+                GroupedTestOutput(100_000, listOf("load_param", "615345154", "7534521541")),
+                GroupedTestOutput(100_000, listOf("update", "2358233", "23565331")),
+                GroupedTestOutput(100_000, listOf("delete", "321122", "5541221")),
             )
 
         val actual = testResults.toListOfRows()

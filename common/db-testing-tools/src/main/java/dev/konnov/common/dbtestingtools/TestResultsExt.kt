@@ -23,9 +23,10 @@ fun List<TestResult>.transformToAverages(): List<TestResult> =
             }
         }
 
-fun List<TestResult>.toListOfRows(): List<List<String>> {
+// TODO rewrite it in more readable way
+fun List<TestResult>.toListOfRows(): List<GroupedTestOutput> {
 
-    val rows = mutableListOf<List<String>>()
+    val rows = mutableListOf<GroupedTestOutput>()
 
     this.groupBy { testResult ->
         testResult.numberOfEntries
@@ -35,12 +36,15 @@ fun List<TestResult>.toListOfRows(): List<List<String>> {
                 testResult.operationType
             }.onEach {
                 rows.add(
-                    listOf(
-                        "${it.key.toString().lowercase(Locale.ENGLISH)} ${it.value.first().numberOfEntries.shorten()}"
-                    ) +
-                            (it.value.map {
-                                listOf(it.timeInMillis.toString())
-                            }.flatten())
+                    GroupedTestOutput(
+                        it.value.first().numberOfEntries,
+                        listOf(
+                            "${it.key.toString().lowercase(Locale.ENGLISH)}"
+                        ) +
+                                (it.value.map {
+                                    listOf(it.timeInMillis.toString())
+                                }.flatten())
+                    )
                 )
             }
         }
@@ -48,7 +52,12 @@ fun List<TestResult>.toListOfRows(): List<List<String>> {
     return rows
 }
 
-internal fun Int.shorten(): String =
+data class GroupedTestOutput(
+    val numberOfEntries: Int,
+    val items: List<String>
+)
+
+fun Int.shorten(): String =
     when {
         this in 1_000..999_999 -> this.toString().dropLast(3) + "k"
         this in 1_000_000..999_999_999 -> this.toString().dropLast(6) + "m"
