@@ -2,6 +2,7 @@ package dev.konnov.feature.sharedpreferences.presentation
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.konnov.common.dbtestingtools.DbInfo
 import dev.konnov.common.dbtestingtools.domain.entity.SIZE_10k
 import dev.konnov.common.dbtestingtools.domain.usecase.TestSpeedUseCase
 import dev.konnov.common.mvvm.TestDbViewModel
@@ -19,6 +20,8 @@ class SharedPreferencesViewModel @Inject constructor(
     private val testSpeedUseCase: TestSpeedUseCase
 ) : TestDbViewModel(testSpeedUseCase) {
 
+    override val dbInfo = DbInfo("Shared Preferences")
+
     override val testIterations = 1
 
     override val testSizes: List<Int> = listOf(SIZE_10k)
@@ -27,7 +30,7 @@ class SharedPreferencesViewModel @Inject constructor(
         viewModelScope.launch(IO) {
             val testResults = testSpeedUseCase(testIterations, testSizes)
             withContext(Main) {
-                _state.value = TestDbViewState.Content(testResults)
+                _state.value = TestDbViewState.Content(dbInfo, testResults)
             }
         }
     }

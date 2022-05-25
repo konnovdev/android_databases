@@ -6,17 +6,20 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
+import androidx.compose.material.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import dev.konnov.common.dbtestingtools.DbInfo
 import dev.konnov.common.dbtestingtools.domain.entity.TestResult
 import dev.konnov.common.dbtestingtools.domain.entity.fakeTestResults
 import dev.konnov.common.dbtestingtools.shorten
@@ -28,7 +31,7 @@ import dev.konnov.common.mvvm.TestDbViewState.InProgress
 @Preview(showBackground = true, widthDp = 320, heightDp = 700)
 @Composable
 private fun PreviewTestTableScreen() {
-    TestTableScreen(fakeTestResults)
+    TestTableScreen(DbInfo("Room"), fakeTestResults)
 }
 
 @Preview(showBackground = true, widthDp = 320, heightDp = 700)
@@ -57,14 +60,14 @@ fun ResultScreen(
             Progress()
         }
         is Content -> {
-            TestTableScreen(screenState.results)
+            TestTableScreen(screenState.dbInfo, screenState.results)
         }
     }
 }
 
 // TODO rewrite it in more readable way
 @Composable
-fun TestTableScreen(testResults: List<TestResult>) {
+fun TestTableScreen(dbInfo: DbInfo, testResults: List<TestResult>) {
     val headers =
         testResults
             .groupBy { it.numberOfEntries }
@@ -80,6 +83,13 @@ fun TestTableScreen(testResults: List<TestResult>) {
             .verticalScroll(rememberScrollState())
             .padding(8.dp)
     ) {
+        Text(
+            text = dbInfo.dbName,
+            Modifier.padding(bottom = 24.dp).fillMaxWidth(),
+            textAlign = TextAlign.Center,
+            style = Typography().h6,
+            color = Color.Gray
+        )
         headers
             .entries
             .forEach { numberOfEntriesToDataSetTypesMap ->
@@ -117,14 +127,18 @@ fun TestTableScreen(testResults: List<TestResult>) {
                                 if (index == 0) {
                                     Text(
                                         text = rowText,
-                                        Modifier.width(74.dp).padding(vertical = 4.dp),
+                                        Modifier
+                                            .width(74.dp)
+                                            .padding(vertical = 4.dp),
                                         textAlign = TextAlign.Center,
                                         fontStyle = FontStyle.Italic
                                     )
                                 } else {
                                     Text(
                                         text = rowText,
-                                        Modifier.width(90.dp).padding(vertical = 4.dp),
+                                        Modifier
+                                            .width(90.dp)
+                                            .padding(vertical = 4.dp),
                                         textAlign = TextAlign.Center
                                     )
                                 }
@@ -133,7 +147,11 @@ fun TestTableScreen(testResults: List<TestResult>) {
                         }
                     }
 
-                Spacer(Modifier.fillMaxWidth().height(32.dp))
+                Spacer(
+                    Modifier
+                        .fillMaxWidth()
+                        .height(32.dp)
+                )
             }
     }
 }

@@ -2,6 +2,7 @@ package dev.konnov.feature.sqliteopenhelper.presentation
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.konnov.common.dbtestingtools.DbInfo
 import dev.konnov.common.dbtestingtools.domain.usecase.TestSpeedUseCase
 import dev.konnov.common.mvvm.TestDbViewModel
 import dev.konnov.common.mvvm.TestDbViewState
@@ -18,11 +19,13 @@ class SqliteOpenHelperViewModel @Inject constructor(
     private val testSpeedUseCase: TestSpeedUseCase
 ) : TestDbViewModel(testSpeedUseCase) {
 
+    override val dbInfo = DbInfo("SqliteOpenHelper")
+
     override fun testDbSpeed() {
         viewModelScope.launch(IO) {
             val testResults = testSpeedUseCase(testIterations, testSizes)
             withContext(Main) {
-                _state.value = TestDbViewState.Content(testResults)
+                _state.value = TestDbViewState.Content(dbInfo, testResults)
             }
         }
     }
