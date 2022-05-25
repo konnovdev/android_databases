@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.konnov.common.dbtestingtools.domain.entity.SIZE_100k
 import dev.konnov.common.dbtestingtools.domain.entity.SIZE_10k
+import dev.konnov.common.dbtestingtools.domain.entity.SIZE_1k
 import dev.konnov.common.dbtestingtools.domain.usecase.TestSpeedUseCase
 import dev.konnov.common.mvvm.TestDbViewState.Content
 import dev.konnov.common.mvvm.TestDbViewState.InProgress
@@ -16,7 +17,7 @@ abstract class TestDbViewModel(private val testSpeedUseCase: TestSpeedUseCase) :
     protected val _state = MutableStateFlow<TestDbViewState>(InProgress)
     val state: StateFlow<TestDbViewState> = _state
 
-    open val testSizes = listOf(SIZE_10k, SIZE_100k)
+    open val testSizes = listOf(SIZE_1k, SIZE_10k, SIZE_100k)
 
     open val testIterations = 5
 
