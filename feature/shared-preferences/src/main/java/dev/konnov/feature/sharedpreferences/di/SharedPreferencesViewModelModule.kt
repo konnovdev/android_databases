@@ -22,5 +22,8 @@ class SharedPreferencesViewModelModule {
         newsRepository: DbTestRepositoryImpl<String, NewsReport, NewsReportDto>,
         weatherRepository: DbTestRepositoryImpl<Double, WeatherLog, WeatherLogDto>
     ): TestSpeedUseCase =
-        TestSpeedUseCase(newsRepository, weatherRepository)
+        TestSpeedUseCase(
+            weatherRepository,
+            newsRepository,
+        )
 }

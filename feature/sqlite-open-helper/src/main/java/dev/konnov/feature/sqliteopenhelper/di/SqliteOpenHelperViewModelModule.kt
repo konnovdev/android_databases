@@ -22,5 +22,8 @@ class SqliteOpenHelperViewModelModule {
         @Named("sqliteopenhelper_news_repository")
         newsDbTestRepository: DbTestRepositoryImpl<String, NewsReport, NewsReport>
     ): TestSpeedUseCase =
-        TestSpeedUseCase(weatherDbTestRepository, newsDbTestRepository)
+        TestSpeedUseCase(
+            weatherDbTestRepository,
+            newsDbTestRepository,
+        )
 }

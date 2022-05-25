@@ -24,5 +24,6 @@ class ObjectBoxViewModelModule {
     ): TestSpeedUseCase =
         TestSpeedUseCase(
             weatherDbTestRepository,
-            newsDbTestRepository)
+            newsDbTestRepository,
+        )
 }

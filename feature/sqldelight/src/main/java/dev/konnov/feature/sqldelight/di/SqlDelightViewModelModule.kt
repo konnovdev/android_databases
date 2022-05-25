@@ -17,10 +17,13 @@ class SqlDelightViewModelModule {
     @Provides
     @Named("Sqldelight_usecase")
     fun provideTestSpeedUseCase(
+        @Named("sqldelight_weather_repository")
+        weatherRepository: DbTestRepositoryImpl<Double, WeatherLog, WeatherLog>,
         @Named("sqldelight_news_repository")
         newsRepository: DbTestRepositoryImpl<String, NewsReport, NewsReport>,
-        @Named("sqldelight_weather_repository")
-        weatherRepository: DbTestRepositoryImpl<Double, WeatherLog, WeatherLog>
     ): TestSpeedUseCase =
-        TestSpeedUseCase(newsRepository, weatherRepository)
+        TestSpeedUseCase(
+            weatherRepository,
+            newsRepository,
+        )
 }

@@ -19,12 +19,12 @@ class DataStoreViewModelModule {
     @Provides
     @Named("Datastore_usecase")
     fun provideTestSpeedUseCase(
-        newsRepository: DbTestRepositoryImpl<String, NewsReport, NewsReportDto>,
-        weatherRepository: DbTestRepositoryImpl<Double, WeatherLog, WeatherLogDto>
+        weatherRepository: DbTestRepositoryImpl<Double, WeatherLog, WeatherLogDto>,
+        newsRepository: DbTestRepositoryImpl<String, NewsReport, NewsReportDto>
     ): TestSpeedUseCase =
         TestSpeedUseCase(
+            weatherRepository,
             newsRepository,
-            weatherRepository
         )
 
 }
