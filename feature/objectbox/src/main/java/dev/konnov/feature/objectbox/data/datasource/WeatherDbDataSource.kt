@@ -11,7 +11,7 @@ class WeatherDbDataSource @Inject constructor(
 ) : DbDataSource<Double, WeatherLogDto> {
 
     override suspend fun insert(items: List<WeatherLogDto>) {
-        items.forEach(box::put)
+        box.put(items)
     }
 
     override suspend fun loadAll() {
@@ -32,8 +32,8 @@ class WeatherDbDataSource @Inject constructor(
             .between(WeatherLogDto_.temperature, param, TOLERANCE_FOR_DOUBLE)
             .build()
             .find()
-            .forEach { oldObject ->
-                box.put(objectToInsert.apply { id = oldObject.id })
+            .also {
+                box.put(it)
             }
     }
 

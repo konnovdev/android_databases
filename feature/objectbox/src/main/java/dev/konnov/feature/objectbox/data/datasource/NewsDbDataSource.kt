@@ -14,7 +14,7 @@ class NewsDbDataSource @Inject constructor(
     private val caseInsensitiveStringOrder = QueryBuilder.StringOrder.CASE_INSENSITIVE
 
     override suspend fun insert(items: List<NewsReportDto>) {
-        items.forEach(box::put)
+        box.put(items)
     }
 
     override suspend fun loadAll() {
@@ -35,8 +35,8 @@ class NewsDbDataSource @Inject constructor(
             .contains(NewsReportDto_.title, param, caseInsensitiveStringOrder)
             .build()
             .find()
-            .forEach { oldObject ->
-                box.put(objectToInsert.apply { id = oldObject.id })
+            .also {
+                box.put(it)
             }
     }
 
