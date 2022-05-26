@@ -10,11 +10,13 @@ class NewsDbDataSource @Inject constructor(
 ) : DbDataSource<String, NewsReport> {
 
     override suspend fun insert(items: List<NewsReport>) {
-        items.forEach {
-            newsReportQueries.insert(
-                it.title,
-                it.description,
-            )
+        newsReportQueries.transaction {
+            items.forEach {
+                newsReportQueries.insert(
+                    it.title,
+                    it.description,
+                )
+            }
         }
     }
 
@@ -38,6 +40,6 @@ class NewsDbDataSource @Inject constructor(
     }
 
     override suspend fun deleteAll() {
-        newsReportQueries.selectAll()
+        newsReportQueries.deleteAll()
     }
 }

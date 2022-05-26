@@ -10,12 +10,14 @@ class WeatherDbDataSource @Inject constructor(
 ) : DbDataSource<Double, WeatherLog> {
 
     override suspend fun insert(items: List<WeatherLog>) {
-        items.forEach {
-            weatherLogQueries.insert(
-                it.temperature,
-                it.humidity,
-                it.pressure
-            )
+        weatherLogQueries.transaction {
+            items.forEach {
+                weatherLogQueries.insert(
+                    it.temperature,
+                    it.humidity,
+                    it.pressure
+                )
+            }
         }
     }
 
