@@ -6,12 +6,12 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -90,28 +90,32 @@ private fun MainScreen(
             Column(
                 Modifier
                     .fillMaxSize()
-                    .padding(32.dp)
+                    .padding(32.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = "Choose a db to test")
-                Button(onClick = { sqliteOpenHelperClicked() }) {
+                Text(text = "Choose a db to test performace:",
+                    color = Color.Black,
+                    style = Typography().h6,
+                    modifier = Modifier.padding(bottom = 8.dp))
+                OutlinedButton(onClick = { sqliteOpenHelperClicked() }, Modifier.width(200.dp)) {
                     Text(text = "SqliteOpenHelper")
                 }
-                Button(onClick = { realmClicked() }) {
+                OutlinedButton(onClick = { realmClicked() }, Modifier.width(200.dp)) {
                     Text(text = "Realm")
                 }
-                Button(onClick = { roomClicked() }) {
+                OutlinedButton(onClick = { roomClicked() }, Modifier.width(200.dp)) {
                     Text(text = "Room")
                 }
-                Button(onClick = { objectBoxClicked() }) {
+                OutlinedButton(onClick = { objectBoxClicked() }, Modifier.width(200.dp)) {
                     Text(text = "ObjectBox")
                 }
-                Button(onClick = { sqlDelightClicked() }) {
+                OutlinedButton(onClick = { sqlDelightClicked() }, Modifier.width(200.dp)) {
                     Text(text = "SqlDelight")
                 }
-                Button(onClick = { sharedPrefencesClicked() }) {
+                OutlinedButton(onClick = { sharedPrefencesClicked() }, Modifier.width(200.dp)) {
                     Text(text = "sharedPreferences")
                 }
-                Button(onClick = { datastoreClicked() }) {
+                OutlinedButton(onClick = { datastoreClicked() }, Modifier.width(200.dp)) {
                     Text(text = "datastore")
                 }
             }
