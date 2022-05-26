@@ -28,25 +28,25 @@ class NewsDbDataSource @Inject constructor(
     }
 
     override suspend fun update(param: String, objectToInsert: NewsReportDto) {
-        val itemIndexesToUpdate = mutableListOf<Int>()
+        val updatedItems = mutableListOf<NewsReportDto>()
         weatherLogDataStore
             .data
             .first()
             .newsList
             .forEachIndexed { index, item ->
                 if (item.title == param) {
-                    itemIndexesToUpdate.add(index)
+                    updatedItems.add(index, objectToInsert)
+                } else {
+                    updatedItems.add(index, item)
                 }
             }
 
-        itemIndexesToUpdate.forEach {
             weatherLogDataStore.updateData { weatherList ->
                 weatherList.toBuilder()
-                    .addNews(it, objectToInsert)
+                    .addAllNews(updatedItems)
                     .build()
             }
         }
-    }
 
     override suspend fun delete(param: String) {
         val dataWithoutDeletedItem = weatherLogDataStore

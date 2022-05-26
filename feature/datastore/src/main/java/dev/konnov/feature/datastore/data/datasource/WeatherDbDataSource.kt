@@ -28,23 +28,23 @@ class WeatherDbDataSource @Inject constructor(
     }
 
     override suspend fun update(param: Double, objectToInsert: WeatherLogDto) {
-        val itemIndexesToUpdate = mutableListOf<Int>()
+        val updatedItems = mutableListOf<WeatherLogDto>()
         weatherLogDataStore
             .data
             .first()
             .weatherList
             .forEachIndexed { index, item ->
                 if (item.temperature == param) {
-                    itemIndexesToUpdate.add(index)
+                    updatedItems.add(index, objectToInsert)
+                } else {
+                    updatedItems.add(index, item)
                 }
             }
 
-        itemIndexesToUpdate.forEach {
-            weatherLogDataStore.updateData { weatherList ->
-                weatherList.toBuilder()
-                    .addWeather(it, objectToInsert)
-                    .build()
-            }
+        weatherLogDataStore.updateData { weatherList ->
+            weatherList.toBuilder()
+                .addAllWeather(updatedItems)
+                .build()
         }
     }
 
@@ -56,13 +56,13 @@ class WeatherDbDataSource @Inject constructor(
             .filter { it.temperature != param }
 
 
-       weatherLogDataStore.updateData {  weatherList ->
-           weatherList.toBuilder()
-               .clearWeather()
-               .build()
-       }
+        weatherLogDataStore.updateData { weatherList ->
+            weatherList.toBuilder()
+                .clearWeather()
+                .build()
+        }
 
-        weatherLogDataStore.updateData {  weatherList ->
+        weatherLogDataStore.updateData { weatherList ->
             weatherList.toBuilder()
                 .addAllWeather(dataWithoutDeletedItem)
                 .build()
@@ -70,7 +70,7 @@ class WeatherDbDataSource @Inject constructor(
     }
 
     override suspend fun deleteAll() {
-        weatherLogDataStore.updateData {  weatherList ->
+        weatherLogDataStore.updateData { weatherList ->
             weatherList.toBuilder()
                 .clearWeather()
                 .build()
