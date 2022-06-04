@@ -1,4 +1,4 @@
-package dev.konnov.common.dbtestingtools.testresultext
+package dev.konnov.common.dbtestingtools.testresultextext
 
 import dev.konnov.common.dbtestingtools.GroupedTestOutput
 import dev.konnov.common.dbtestingtools.domain.entity.DataSetType
