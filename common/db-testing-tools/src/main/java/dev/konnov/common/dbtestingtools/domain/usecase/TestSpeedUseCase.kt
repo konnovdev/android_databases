@@ -13,7 +13,7 @@ class TestSpeedUseCase @Inject constructor(
         val results = mutableListOf<TestResult>()
 
         repositories.forEach { testSpeedRepository ->
-            for (i in 0..testIterations) {
+            for (i in 0 until testIterations) {
                 testSizes.forEach { testSize ->
                     results += testSpeedRepository.test(testSize)
                 }
