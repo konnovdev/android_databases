@@ -5,6 +5,8 @@ plugins {
 dependencies {
     implementation("javax.inject:javax.inject:1")
 
+    testImplementation libs.kotlinReflection
+
     testImplementation testLibs.junitCore
     testImplementation testLibs.junitJupiter
     testImplementation testLibs.mockito
