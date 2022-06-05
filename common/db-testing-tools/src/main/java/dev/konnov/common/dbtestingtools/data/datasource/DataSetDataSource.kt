@@ -1,12 +1,12 @@
 package dev.konnov.common.dbtestingtools.data.datasource
 
-interface DataSetDataSource<Param, Data> {
+interface DataSetDataSource<Param, Entity> {
 
-    fun get(size: Int): List<Data>
+    fun get(size: Int): List<Entity>
 
     val oldParameterToUpdate: Param
 
-    val objectToInsertAsUpdate: Data
+    val objectToInsertAsUpdate: Entity
 
     val parameterToDelete: Param
 
