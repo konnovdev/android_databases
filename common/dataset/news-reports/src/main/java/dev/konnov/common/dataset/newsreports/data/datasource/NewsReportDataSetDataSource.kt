@@ -5,12 +5,18 @@ import dev.konnov.common.dbtestingtools.data.datasource.DataSetDataSource
 import javax.inject.Inject
 
 /**
- * Generating different articles
- * for now we only have 7 unique itmes
+ * This class generates NewsReport objects and parameters for CRUD manipulations.
+ * For now we only have 7 unique items (7 uniques titles + 7 unique descriptions).
+ *
+ * This means generating 10_000 items with this class will result in a collections that is
+ * only 0.07% unique
  */
 
 class NewsReportDataSetDataSource @Inject constructor() : DataSetDataSource<String, NewsReport> {
 
+    /*
+        Generate N items
+     */
     override fun get(size: Int): List<NewsReport> {
         val dataList = mutableListOf<NewsReport>()
         for (i in 1..size) {
