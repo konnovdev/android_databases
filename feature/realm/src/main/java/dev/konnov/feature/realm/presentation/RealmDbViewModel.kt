@@ -14,6 +14,4 @@ class RealmDbViewModel @Inject constructor(
 ) : TestDbViewModel(testSpeedUseCase) {
 
     override val dbInfo = DbInfo("Realm")
-
-    override val testIterations: Int = 1
 }

@@ -13,16 +13,16 @@ class WeatherDbDataSource @Inject constructor(
     override suspend fun insert(items: List<WeatherLogDto>) {
         items
             .map {
-            WeatherLogDto().apply {
-                this.temperature = it.temperature
-                this.humidity = it.humidity
-                this.pressure = it.pressure
+                WeatherLogDto().apply {
+                    this.temperature = it.temperature
+                    this.humidity = it.humidity
+                    this.pressure = it.pressure
+                }
+            }.also { dtos ->
+                realm.write {
+                    dtos.forEach(::copyToRealm)
+                }
             }
-        }.also { dtos ->
-            realm.write {
-                dtos.forEach(::copyToRealm)
-            }
-        }
     }
 
     override suspend fun loadAll() {
@@ -34,17 +34,17 @@ class WeatherDbDataSource @Inject constructor(
     }
 
     override suspend fun update(param: Double, objectToInsert: WeatherLogDto) {
-        realm.query<WeatherLogDto>("temperature == $0", param)
-            .find()
-            .forEach { oldWeatherLogDto ->
-                realm.write {
+        realm.write {
+            realm.query<WeatherLogDto>("temperature == $0", param)
+                .find()
+                .forEach { oldWeatherLogDto ->
                     findLatest(oldWeatherLogDto)?.apply {
                         temperature = objectToInsert.temperature
                         humidity = objectToInsert.humidity
                         pressure = objectToInsert.pressure
                     }
                 }
-            }
+        }
     }
 
     override suspend fun delete(param: Double) {

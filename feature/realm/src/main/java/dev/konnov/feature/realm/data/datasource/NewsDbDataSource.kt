@@ -13,15 +13,15 @@ class NewsDbDataSource @Inject constructor(
     override suspend fun insert(items: List<NewsReportDto>) {
         items
             .map {
-            NewsReportDto().apply {
-                this.title = it.title
-                this.description = it.description
+                NewsReportDto().apply {
+                    this.title = it.title
+                    this.description = it.description
+                }
+            }.also { dtos ->
+                realm.write {
+                    dtos.forEach(::copyToRealm)
+                }
             }
-        }.also { dtos ->
-            realm.write {
-                dtos.forEach(::copyToRealm)
-            }
-        }
     }
 
     override suspend fun loadAll() {
@@ -33,16 +33,16 @@ class NewsDbDataSource @Inject constructor(
     }
 
     override suspend fun update(param: String, objectToInsert: NewsReportDto) {
-        realm.query<NewsReportDto>("title == $0", param)
-            .find()
-            .forEach { oldNewsReportDto ->
-                realm.write {
+        realm.write {
+            realm.query<NewsReportDto>("title == $0", param)
+                .find()
+                .forEach { oldNewsReportDto ->
                     findLatest(oldNewsReportDto)?.apply {
                         title = objectToInsert.title
                         description = objectToInsert.description
                     }
                 }
-            }
+        }
     }
 
     override suspend fun delete(param: String) {
