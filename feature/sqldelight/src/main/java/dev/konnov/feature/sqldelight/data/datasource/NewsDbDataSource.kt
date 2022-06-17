@@ -21,11 +21,11 @@ class NewsDbDataSource @Inject constructor(
     }
 
     override suspend fun loadAll() {
-        newsReportQueries.selectAll()
+        newsReportQueries.selectAll().execute()
     }
 
     override suspend fun loadByParameter(param: String) {
-        newsReportQueries.selectByTitle(param)
+        newsReportQueries.selectByTitle(param).execute()
     }
 
     override suspend fun update(param: String, objectToInsert: NewsReport) {

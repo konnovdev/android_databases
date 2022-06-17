@@ -22,11 +22,11 @@ class WeatherDbDataSource @Inject constructor(
     }
 
     override suspend fun loadAll() {
-        weatherLogQueries.selectAll()
+        weatherLogQueries.selectAll().execute()
     }
 
     override suspend fun loadByParameter(param: Double) {
-        weatherLogQueries.selectByTemperature(param)
+        weatherLogQueries.selectByTemperature(param).execute()
     }
 
     override suspend fun update(param: Double, objectToInsert: WeatherLog) {
