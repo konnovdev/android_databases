@@ -41,6 +41,7 @@ import javax.inject.Inject
     Please remove or make sure it appears in the correct subdirectory of the classpath.
  *
  **/
+@Deprecated("TODO find a way to make dagger hilt work with Realm objects")
 class WeatherLogsDbRepository @Inject constructor(
     private val dataSetDataSource: DataSetDataSource<Double, WeatherLog>,
     private val dbDataSource: WeatherDbDataSource,

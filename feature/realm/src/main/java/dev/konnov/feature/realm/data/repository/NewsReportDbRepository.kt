@@ -15,6 +15,7 @@ import javax.inject.Inject
  * See in WeatherLogsDbRepository the explanation why i had to manually create this repository
  */
 
+@Deprecated("TODO find a way to make dagger hilt work with Realm objects")
 class NewsReportDbRepository @Inject constructor(
     private val dataSetDataSource: DataSetDataSource<String, NewsReport>,
     private val dbDataSource: NewsDbDataSource,
