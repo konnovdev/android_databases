@@ -9,7 +9,7 @@ import dev.konnov.feature.room.data.model.NewsReportDto
 interface NewsReportDao {
 
     @Query("SELECT * FROM newsReport")
-    suspend fun getAll(): NewsReportDto
+    suspend fun getAll(): List<NewsReportDto>
 
     @Query("SELECT * FROM newsReport WHERE title = :title")
     suspend fun getNewsReportByTitle(title: String): List<NewsReportDto>
